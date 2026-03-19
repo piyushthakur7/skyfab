@@ -68,8 +68,9 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="preloader-logo">
-        SKYFAB
+      <div className="preloader-logo flex flex-col items-center">
+        <span className="text-4xl font-bold tracking-[0.2em] text-brand">SKYFAB</span>
+        <span className="text-[8px] tracking-[0.6em] text-brand-light font-sans mt-2">OVERSEAS WORLDWIDE</span>
       </div>
       <div className="preloader-bar">
         <div className="preloader-bar-fill" />
@@ -85,6 +86,38 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
     </motion.div>
   );
 };
+
+// --- Magnetic Button Hook ---
+function useMagnetic(ref: React.RefObject<HTMLElement | null>) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 150, damping: 15 });
+  const springY = useSpring(y, { stiffness: 150, damping: 15 });
+
+  useEffect(() => {
+    const calculateDistance = (e: MouseEvent) => {
+      if (ref.current) {
+        const rect = ref.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const distanceX = e.clientX - centerX;
+        const distanceY = e.clientY - centerY;
+
+        if (Math.abs(distanceX) < 100 && Math.abs(distanceY) < 100) {
+          x.set(distanceX * 0.4);
+          y.set(distanceY * 0.4);
+        } else {
+          x.set(0);
+          y.set(0);
+        }
+      }
+    };
+    window.addEventListener('mousemove', calculateDistance);
+    return () => window.removeEventListener('mousemove', calculateDistance);
+  }, [ref, x, y]);
+
+  return { x: springX, y: springY };
+}
 
 // --- Cursor Follower ---
 const CursorFollower = () => {
@@ -103,16 +136,27 @@ const CursorFollower = () => {
   }, []);
 
   return (
-    <motion.div
-      className="fixed w-64 h-64 rounded-full pointer-events-none z-0 hidden lg:block"
-      style={{
-        x: springX,
-        y: springY,
-        translateX: '-50%',
-        translateY: '-50%',
-        background: 'radial-gradient(circle, rgba(197,160,89,0.06) 0%, transparent 70%)',
-      }}
-    />
+    <>
+      <motion.div
+        className="fixed w-4 h-4 bg-brand rounded-full pointer-events-none z-[100] mix-blend-difference hidden lg:block"
+        style={{
+          x: springX,
+          y: springY,
+          translateX: '-50%',
+          translateY: '-50%',
+        }}
+      />
+      <motion.div
+        className="fixed w-64 h-64 rounded-full pointer-events-none z-0 hidden lg:block opacity-50"
+        style={{
+          x: springX,
+          y: springY,
+          translateX: '-50%',
+          translateY: '-50%',
+          background: 'radial-gradient(circle, rgba(0,128,128,0.1) 0%, transparent 70%)',
+        }}
+      />
+    </>
   );
 };
 
@@ -150,9 +194,15 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-10">
-          <a href="/" className="text-2xl font-serif font-bold tracking-tight group">
-            <span className="inline-block transition-transform group-hover:-translate-y-0.5 duration-300">SKY</span>
-            <span className="text-gold transition-all duration-300 group-hover:text-accent">FAB</span>
+          <a href="/" className="flex flex-col items-start group">
+            <div className="flex items-center gap-2">
+              <Globe size={24} className="text-brand animate-pulse-slow" />
+              <span className="text-2xl font-bold tracking-tighter">
+                <span className="text-ink">SKY</span>
+                <span className="text-brand">FAB</span>
+              </span>
+            </div>
+            <span className="text-[7px] tracking-[0.4em] font-bold text-ink/40 -mt-1 ml-8">OVERSEAS WORLDWIDE</span>
           </a>
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link, i) => (
@@ -180,7 +230,7 @@ const Navbar = () => {
           </button>
           <button className="p-2.5 hover:bg-ink/5 rounded-full transition-all duration-300 relative">
             <ShoppingBag size={18} strokeWidth={1.5} />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-gold rounded-full" />
+            <span className="absolute top-1 right-1 w-2 h-2 bg-brand rounded-full" />
           </button>
           <button 
             className="md:hidden p-2"
@@ -188,10 +238,17 @@ const Navbar = () => {
           >
             {isMobileMenuOpen ? <X /> : <Menu />}
           </button>
-          <button className="hidden md:flex items-center gap-2 bg-ink text-paper px-7 py-2.5 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-gold transition-all duration-500 group">
-            <span>Inquiry</span>
-            <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </button>
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="hidden md:flex items-center gap-2 bg-ink text-paper px-7 py-2.5 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-brand transition-all duration-500 group overflow-hidden relative shadow-lg shadow-ink/10"
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              Inquiry
+              <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </span>
+            <div className="absolute inset-0 bg-gold scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
+          </motion.button>
         </div>
       </div>
 
@@ -241,7 +298,7 @@ const FloatingThreads = () => (
       <div
         key={i}
         className={cn(
-          "absolute w-px bg-gradient-to-b from-gold/20 via-gold/5 to-transparent",
+          "absolute w-px bg-gradient-to-b from-brand/20 via-brand/5 to-transparent",
           i === 0 && "left-[10%] top-[20%] h-32 animate-float",
           i === 1 && "left-[30%] top-[60%] h-24 animate-float-delayed",
           i === 2 && "right-[20%] top-[30%] h-40 animate-float-slow",
@@ -253,6 +310,25 @@ const FloatingThreads = () => (
   </div>
 );
 
+// --- Digital Loom Decoration ---
+const DigitalLoom = () => (
+  <div className="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
+    <div className="absolute inset-0" style={{ 
+      backgroundImage: `linear-gradient(to right, rgba(0,128,128,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,128,128,0.05) 1px, transparent 1px)`,
+      backgroundSize: '40px 40px'
+    }} />
+    <motion.div 
+      animate={{ 
+        y: [0, 40],
+        opacity: [0.3, 0.6, 0.3]
+      }}
+      transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+      className="absolute inset-0 bg-gradient-to-b from-brand/10 to-transparent h-20"
+      style={{ backgroundSize: '100% 400%' }}
+    />
+  </div>
+);
+
 // --- Hero ---
 const Hero = () => {
   const ref = useRef(null);
@@ -260,31 +336,34 @@ const Hero = () => {
     target: ref,
     offset: ["start start", "end start"]
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 5]);
 
   return (
-    <section ref={ref} className="relative h-screen min-h-[800px] flex items-center overflow-hidden">
+    <section ref={ref} className="relative h-screen min-h-[800px] flex items-center overflow-hidden bg-ink">
       {/* Parallax Background */}
-      <motion.div className="absolute inset-0 z-0" style={{ y, scale }}>
+      <motion.div className="absolute inset-0 z-0 origin-center" style={{ y, scale, rotate, opacity }}>
         <img 
-          src="https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&q=80&w=2000" 
-          alt="Luxury Silk Fabric"
-          className="w-full h-full object-cover"
+          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=2000" 
+          alt="Abstract Textiles"
+          className="w-full h-full object-cover grayscale brightness-75 contrast-125"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/30 to-ink/60" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/50 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/20 via-ink/60 to-ink" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/20 to-transparent" />
       </motion.div>
 
-      {/* Grain Overlay */}
-      <div className="absolute inset-0 z-[1] grain-overlay" />
+      <DigitalLoom />
+      
+      <div className="absolute inset-0 z-[1] grain-overlay opacity-30" />
+      <div className="vignette z-[2]" />
 
       <FloatingThreads />
 
-      <motion.div style={{ opacity }} className="relative z-10 max-w-7xl mx-auto px-6 w-full">
-        <div className="max-w-3xl">
+      <motion.div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+        <div className="max-w-4xl">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -292,99 +371,93 @@ const Hero = () => {
           >
             {/* Eyebrow */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 3.4 }}
-              className="flex items-center gap-4 mb-8"
+              className="flex items-center gap-4 mb-12"
             >
-              <div className="w-12 h-px bg-gold" />
-              <span className="text-paper/70 text-[10px] uppercase tracking-[0.4em] font-bold">
-                Est. 2006 • 20 Years of Textile Excellence
+              <div className="w-16 h-px bg-brand" />
+              <span className="text-paper/60 text-[10px] uppercase tracking-[0.5em] font-bold">
+                Pioneering Global Textiles Since 2006
               </span>
             </motion.div>
 
-            {/* Main Title */}
-            <div className="overflow-hidden mb-4">
+            {/* Main Title with staggered letters or words */}
+            <div className="overflow-hidden mb-2">
               <motion.h1
-                initial={{ y: '100%' }}
-                animate={{ y: 0 }}
-                transition={{ duration: 1, delay: 3.6, ease: [0.22, 1, 0.36, 1] }}
-                className="text-6xl md:text-8xl lg:text-9xl text-paper leading-[0.85] font-light"
+                initial={{ y: '100%', skewY: 10 }}
+                animate={{ y: 0, skewY: 0 }}
+                transition={{ duration: 1.2, delay: 3.6, ease: [0.22, 1, 0.36, 1] }}
+                className="text-7xl md:text-9xl lg:text-[12rem] text-paper leading-[0.8] tracking-tighter"
               >
-                The Art of
+                CRAFTING
               </motion.h1>
             </div>
-            <div className="overflow-hidden mb-10">
+            <div className="overflow-hidden mb-12 flex items-center gap-8">
               <motion.h1
-                initial={{ y: '100%' }}
-                animate={{ y: 0 }}
-                transition={{ duration: 1, delay: 3.8, ease: [0.22, 1, 0.36, 1] }}
-                className="text-6xl md:text-8xl lg:text-9xl text-paper leading-[0.85]"
+                initial={{ y: '100%', skewY: 10 }}
+                animate={{ y: 0, skewY: 0 }}
+                transition={{ duration: 1.2, delay: 3.8, ease: [0.22, 1, 0.36, 1] }}
+                className="text-7xl md:text-9xl lg:text-[12rem] text-brand leading-[0.8] tracking-tighter italic font-light"
               >
-                <span className="italic font-light">Global</span>{' '}
-                <span className="font-bold">Weaving</span>
+                CONNECTIONS
               </motion.h1>
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 4.5, duration: 1 }}
+                className="hidden lg:block w-32 h-32 rounded-full border border-paper/10 flex items-center justify-center italic text-paper/30 text-xs"
+              >
+                World Class
+              </motion.div>
             </div>
 
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 4.2 }}
-              className="text-paper/70 text-base md:text-lg font-light max-w-lg mb-12 leading-relaxed"
-            >
-              Connecting continents through premium textiles. From artisanal silks 
-              to industrial-grade cottons, we bridge heritage craft and global demand.
-            </motion.p>
+            {/* Description and CTA Row */}
+            <div className="flex flex-col md:flex-row md:items-end gap-12 mt-16">
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 4.2 }}
+                className="text-paper/50 text-base md:text-xl font-light max-w-sm leading-relaxed"
+              >
+                We bridge the gap between heritage looms and global latitudes, 
+                delivering premium textile solutions to the modern world.
+              </motion.p>
 
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 4.4 }}
-              className="flex flex-wrap gap-4"
-            >
-              <button className="group relative bg-paper text-ink px-10 py-4 rounded-full text-[11px] uppercase tracking-[0.2em] font-bold overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-gold/20">
-                <span className="relative z-10 flex items-center gap-3 group-hover:text-paper transition-colors duration-500">
-                  Explore Collections
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
-                </span>
-                <div className="absolute inset-0 bg-ink scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
-              </button>
-              <button className="group border border-paper/20 text-paper backdrop-blur-sm px-10 py-4 rounded-full text-[11px] uppercase tracking-[0.2em] font-bold transition-all duration-500 hover:border-gold/50 hover:bg-paper/5 flex items-center gap-3">
-                <Play size={14} fill="currentColor" />
-                Watch Our Story
-              </button>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 4.4 }}
+                className="flex items-center gap-6"
+              >
+                <button className="group relative bg-brand text-paper h-16 px-10 rounded-full text-[11px] uppercase tracking-[0.2em] font-bold overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-brand/40">
+                  <span className="relative z-10 flex items-center gap-3">
+                    Our Heritage
+                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="absolute inset-0 bg-paper scale-x-0 origin-right group-hover:scale-x-100 transition-transform duration-500" />
+                  <span className="absolute inset-0 flex items-center justify-center text-ink opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-bold z-20">
+                    Explore Now
+                  </span>
+                </button>
+                <button className="w-16 h-16 rounded-full border border-paper/20 flex items-center justify-center text-paper hover:bg-paper hover:text-ink transition-all duration-500 group">
+                  <Play size={20} fill="currentColor" className="ml-1 group-hover:scale-110 transition-transform" />
+                </button>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
-      </motion.div>
-
-      {/* Decorative vertical text */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 5, duration: 1 }}
-        className="absolute right-10 bottom-20 hidden lg:block"
-      >
-        <span className="writing-mode-vertical text-paper/20 text-[10px] uppercase tracking-[1em] select-none font-medium">
-          IMPORT • EXPORT • LOGISTICS
-        </span>
       </motion.div>
 
       {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 5, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+        transition={{ delay: 5.5, duration: 1 }}
+        className="absolute bottom-12 right-12 flex items-center gap-4 origin-right rotate-90"
       >
-        <span className="text-paper/40 text-[9px] uppercase tracking-[0.3em] font-bold">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-8 bg-gradient-to-b from-paper/40 to-transparent"
-        />
+        <span className="text-paper/20 text-[9px] uppercase tracking-[0.5em] font-bold">Scroll to discover</span>
+        <div className="w-24 h-px bg-paper/10" />
       </motion.div>
     </section>
   );
@@ -439,13 +512,14 @@ const Stats = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.15, duration: 0.8 }}
-                className="text-center"
+                whileHover={{ scale: 1.05, y: -10 }}
+                className="text-center group cursor-pointer p-8 rounded-3xl hover:bg-white/5 transition-colors duration-500"
               >
-                <div className="text-5xl md:text-6xl font-serif mb-3 tabular-nums">
+                <div className="text-5xl md:text-6xl font-serif mb-3 tabular-nums group-hover:text-brand transition-colors duration-300">
                   {count}{stat.suffix}
                 </div>
-                <div className="golden-line mx-auto mb-4" />
-                <div className="text-[9px] uppercase tracking-[0.3em] text-paper/40 font-bold">{stat.label}</div>
+                <div className="golden-line mx-auto mb-4 group-hover:w-24 transition-all duration-500" />
+                <div className="text-[9px] uppercase tracking-[0.3em] text-paper/40 font-bold group-hover:text-paper transition-colors delay-100">{stat.label}</div>
               </motion.div>
             );
           })}
@@ -1197,12 +1271,18 @@ const HomePage = () => (
     <MarqueeTicker />
     <Stats />
     <About />
-    <div className="bg-paper py-20 text-center">
-      <Link to="/collections" className="group text-2xl font-serif hover:text-gold transition-colors inline-flex items-center gap-4">
-        Discover Our Full Collections
-        <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
+    <Network />
+    <div className="bg-paper py-32 text-center relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-ink/10 to-transparent" />
+      <Link to="/collections" className="group text-4xl md:text-6xl font-serif hover:text-brand transition-colors inline-block relative px-12 py-6">
+        <span className="relative z-10 flex items-center gap-6">
+          Explore Our World
+          <ArrowRight size={40} className="group-hover:translate-x-4 transition-transform duration-500" />
+        </span>
+        <div className="absolute bottom-0 left-12 right-12 h-0.5 bg-brand scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
       </Link>
     </div>
+    <Testimonials />
   </>
 );
 
@@ -1247,9 +1327,9 @@ export default function App() {
 
       <CursorFollower />
 
-      <div className="min-h-screen selection:bg-gold/30 selection:text-ink">
+      <div className="min-h-screen selection:bg-brand/30 selection:text-ink relative perspective-1000">
         <Navbar />
-        <main>
+        <main className="relative z-10">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/collections" element={<CollectionsPage />} />
@@ -1259,6 +1339,11 @@ export default function App() {
             <Route path="/contact" element={<ContactPage />} />
           </Routes>
         </main>
+
+        {/* Global Overlays */}
+        <div className="vignette" />
+        <div className="fixed inset-0 pointer-events-none z-[60] bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')] opacity-[0.02]" />
+
         <Footer />
       </div>
     </Router>

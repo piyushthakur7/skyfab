@@ -7,12 +7,14 @@
   --font-mono: "JetBrains Mono", monospace;
 
   --color-paper: #fdfcf9;
-  --color-ink: #1a1a1a;
-  --color-accent: #5a5a40; /* Olive */
+  --color-ink: #0d1b1b;
+  --color-brand: #008080;
+  --color-brand-light: #40e0d0;
   --color-gold: #c5a059;
   --color-champagne: #f5ead6;
-  --color-midnight: #0d0d0d;
+  --color-midnight: #002222;
   --color-warm-gray: #e8e4de;
+  --color-accent: #ff4d4d; /* Adding a subtle accent color */
 }
 
 @layer base {
@@ -77,7 +79,7 @@
 .preloader-bar-fill {
   width: 0%;
   height: 100%;
-  background: linear-gradient(90deg, #c5a059, #f5ead6);
+  background: linear-gradient(90deg, var(--color-brand), var(--color-brand-light));
   animation: fillBar 2s ease forwards 0.8s;
 }
 
@@ -221,12 +223,26 @@ html {
   height: 200%;
   background: radial-gradient(
     circle at center,
-    rgba(197, 160, 89, 0.08) 0%,
-    transparent 50%
+    rgba(197, 160, 89, 0.12) 0%,
+    transparent 60%
   );
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
+}
+
+.service-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.service-card:hover::after {
+  opacity: 1;
 }
 
 .service-card:hover {
@@ -247,7 +263,7 @@ html {
 .golden-line {
   width: 60px;
   height: 2px;
-  background: linear-gradient(90deg, #c5a059, transparent);
+  background: linear-gradient(90deg, var(--color-brand), transparent);
 }
 
 /* ═══════════════════════════════════════════════
@@ -274,7 +290,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #c5a059, #5a5a40);
+  background: linear-gradient(to bottom, var(--color-brand), var(--color-brand-light));
   border-radius: 3px;
 }
 
@@ -327,6 +343,56 @@ html {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shimmer 4s linear infinite;
+}
+
+/* ═══════════════════════════════════════════════
+   PREMIUM OVERLAYS
+   ═══════════════════════════════════════════════ */
+.vignette {
+  position: fixed;
+  inset: 0;
+  box-shadow: inset 0 0 150px rgba(0,0,0,0.1);
+  pointer-events: none;
+  z-index: 40;
+}
+
+.magnetic-button {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.card-inner {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-style: preserve-3d;
+}
+
+.group:hover .card-inner {
+  transform: rotateY(10deg) rotateX(5deg);
+}
+
+/* ═══════════════════════════════════════════════
+   TEXT REVEAL
+   ═══════════════════════════════════════════════ */
+.text-reveal {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.text-reveal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-brand);
+  transform: translateX(-101%);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.group:hover .text-reveal::after {
+  transform: translateX(101%);
 }
 
 /* ═══════════════════════════════════════════════
