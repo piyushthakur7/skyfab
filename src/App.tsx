@@ -23,6 +23,8 @@ import {
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { getProducts, getCategories, type WCProduct } from './services/woocommerce';
+
 
 // --- Utility ---
 function cn(...inputs: ClassValue[]) {
@@ -118,6 +120,40 @@ function useMagnetic(ref: React.RefObject<HTMLElement | null>) {
 
   return { x: springX, y: springY };
 }
+
+// --- Custom Hooks for WooCommerce ---
+function useWooCommerce() {
+  const [products, setProducts] = useState<WCProduct[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const [productsData, categoriesData] = await Promise.all([
+          getProducts({ per_page: 8, status: 'publish' }),
+          getCategories()
+        ]);
+        
+        if (productsData && productsData.length > 0) {
+          setProducts(productsData);
+        }
+        setCategories(categoriesData);
+      } catch (err) {
+        setError('Failed to load data from WooCommerce');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
+  return { products, categories, loading, error };
+}
+
 
 // --- Cursor Follower ---
 const CursorFollower = () => {
@@ -228,10 +264,16 @@ const Navbar = () => {
           <button className="p-2.5 hover:bg-ink/5 rounded-full transition-all duration-300 hidden sm:block hover:rotate-12">
             <Search size={18} strokeWidth={1.5} />
           </button>
-          <button className="p-2.5 hover:bg-ink/5 rounded-full transition-all duration-300 relative">
+          <a 
+            href={`${import.meta.env.VITE_WC_URL || '#'}/cart`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2.5 hover:bg-ink/5 rounded-full transition-all duration-300 relative"
+          >
             <ShoppingBag size={18} strokeWidth={1.5} />
             <span className="absolute top-1 right-1 w-2 h-2 bg-brand rounded-full" />
-          </button>
+          </a>
+
           <button 
             className="md:hidden p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -531,40 +573,58 @@ const Stats = () => {
 
 // --- Collections ---
 const Collections = () => {
-  const items = [
+  const { products, loading } = useWooCommerce();
+
+  // Fallback items if WooCommerce is not connected or loading
+  const fallbackItems = [
     {
       title: "Raw Silk",
       origin: "Varanasi, India",
       image: "https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&q=80&w=800",
       category: "Premium",
-      desc: "Hand-spun silk from master artisans"
+      desc: "Hand-spun silk from master artisans",
+      link: "#"
     },
     {
       title: "Egyptian Cotton",
       origin: "Giza, Egypt",
       image: "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=800",
       category: "Industrial",
-      desc: "The world's finest long-staple cotton"
+      desc: "The world's finest long-staple cotton",
+      link: "#"
     },
     {
       title: "Merino Wool",
       origin: "Tasmania, Australia",
       image: "https://images.unsplash.com/photo-1520004434532-668416a08753?auto=format&fit=crop&q=80&w=800",
       category: "Luxury",
-      desc: "Ultra-fine micron wool for premium garments"
+      desc: "Ultra-fine micron wool for premium garments",
+      link: "#"
     },
     {
       title: "Linen Blends",
       origin: "Normandy, France",
       image: "https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&q=80&w=800",
       category: "Sustainable",
-      desc: "Eco-conscious blends from heritage mills"
+      desc: "Eco-conscious blends from heritage mills",
+      link: "#"
     }
   ];
 
+  const displayItems = products.length > 0 
+    ? products.map(p => ({
+        id: p.id,
+        title: p.name,
+        origin: p.categories[0]?.name || 'Skyfab Original',
+        image: p.images[0]?.src || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800",
+        category: p.type.toUpperCase(),
+        desc: p.short_description.replace(/<[^>]*>?/gm, '').substring(0, 100) + '...',
+        link: p.permalink
+      }))
+    : fallbackItems;
+
   return (
     <section id="collections" className="py-32 md:py-40 bg-paper relative">
-      {/* Background decoration */}
       <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-gold/[0.03] rounded-full blur-[100px]" />
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -599,45 +659,53 @@ const Collections = () => {
           </motion.button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {items.map((item, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.12, duration: 0.8 }}
-              className="group cursor-pointer"
-            >
-              <div className="collection-card aspect-[3/4] mb-6">
-                <img 
-                  src={item.image} 
-                  alt={item.title}
-                  className="w-full h-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-110"
-                  referrerPolicy="no-referrer"
-                />
-                {/* Category badge */}
-                <div className="absolute top-4 left-4 z-10">
-                  <span className="bg-paper/90 backdrop-blur-md text-[9px] uppercase tracking-[0.2em] font-bold px-4 py-1.5 rounded-full border border-ink/5">
-                    {item.category}
-                  </span>
-                </div>
-                {/* Hover overlay content */}
-                <div className="collection-card-content">
-                  <p className="text-paper/70 text-sm mb-3">{item.desc}</p>
-                  <div className="flex items-center gap-2 text-gold text-[10px] uppercase tracking-widest font-bold">
-                    <span>Explore</span>
-                    <ArrowRight size={12} />
+        {loading && (
+          <div className="flex justify-center py-20">
+            <div className="w-12 h-12 border-4 border-gold border-t-transparent rounded-full animate-spin" />
+          </div>
+        )}
+
+        {!loading && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {displayItems.map((item: any, idx) => (
+              <motion.div 
+                key={item.id || idx}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.12, duration: 0.8 }}
+                className="group cursor-pointer"
+                onClick={() => window.open(item.link, '_blank')}
+              >
+                <div className="collection-card aspect-[3/4] mb-6">
+                  <img 
+                    src={item.image} 
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-110"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="bg-paper/90 backdrop-blur-md text-[9px] uppercase tracking-[0.2em] font-bold px-4 py-1.5 rounded-full border border-ink/5">
+                      {item.category}
+                    </span>
+                  </div>
+                  <div className="collection-card-content">
+                    <p className="text-paper/70 text-sm mb-3">{item.desc}</p>
+                    <div className="flex items-center gap-2 text-gold text-[10px] uppercase tracking-widest font-bold">
+                      <span>Explore</span>
+                      <ArrowRight size={12} />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <h3 className="text-2xl mb-1 group-hover:text-gold transition-colors duration-300">{item.title}</h3>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-ink/40 font-medium">{item.origin}</p>
-            </motion.div>
-          ))}
-        </div>
+                <h3 className="text-2xl mb-1 group-hover:text-gold transition-colors duration-300">{item.title}</h3>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-ink/40 font-medium">{item.origin}</p>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
+
   );
 };
 
@@ -1210,15 +1278,28 @@ const Footer = () => {
           <div>
             <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold mb-8">Quick Links</h4>
             <ul className="space-y-4 text-sm text-ink/50">
-              {['Collections', 'Our Services', 'Global Network', 'Sustainability'].map((link) => (
-                <li key={link}>
-                  <a href="#" className="hover:text-gold transition-colors duration-300 flex items-center gap-2 group">
-                    <span className="w-0 h-px bg-gold transition-all duration-300 group-hover:w-4" />
-                    {link}
-                  </a>
+              {[
+                { name: 'Collections', href: '/collections' },
+                { name: 'Our Services', href: '/services' },
+                { name: 'Global Network', href: '#network' },
+                { name: 'Shop All', href: `${import.meta.env.VITE_WC_URL || '#'}/shop` }
+              ].map((link) => (
+                <li key={link.name}>
+                  {link.href.startsWith('/') ? (
+                    <Link to={link.href} className="hover:text-gold transition-colors duration-300 flex items-center gap-2 group">
+                      <span className="w-0 h-px bg-gold transition-all duration-300 group-hover:w-4" />
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <a href={link.href} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors duration-300 flex items-center gap-2 group">
+                      <span className="w-0 h-px bg-gold transition-all duration-300 group-hover:w-4" />
+                      {link.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
+
           </div>
 
           <div>
