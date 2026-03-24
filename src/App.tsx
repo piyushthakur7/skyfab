@@ -210,6 +210,7 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Collections', href: '/collections' },
+    { name: 'Divisions', href: '/#divisions' },
     { name: 'Processes', href: '/processes' },
     { name: 'Specialties', href: '/services' },
     { name: 'Heritage', href: '/about' },
@@ -1042,6 +1043,180 @@ const Network = () => {
   );
 };
 
+// --- Product Divisions (New Section for Fabrics and Garments) ---
+const ProductDivisions = () => {
+  const fabricCategories = [
+    "Cotton Fabrics",
+    "Pure Silk Fabrics",
+    "Pure Natural Organic Fabrics",
+    "Viscose Fabrics",
+    "Nylon Fabrics",
+    "Knitted Fabrics / Lycra",
+    "Polyester Fabrics",
+    "Embroidery Fabrics",
+    "Curtains Fabrics",
+    "Kids Western Garment Fabrics",
+    "Hijab Fabrics",
+    "Burakha Fabrics"
+  ];
+
+  const garmentCategories = [
+    "Kaftan",
+    "Hijab",
+    "Scarf",
+    "Casual wear",
+    "Formal wear",
+    "Business Attire",
+    "Active Wear",
+    "Maxy Gown"
+  ];
+
+  return (
+    <section id="divisions" className="py-32 md:py-48 bg-paper relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand/10 to-transparent" />
+      
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center mb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex items-center gap-4 justify-center mb-6"
+          >
+            <div className="golden-line" />
+            <span className="text-gold text-[10px] uppercase tracking-[0.3em] font-bold">Our Specializations</span>
+            <div className="golden-line" style={{ transform: 'rotate(180deg)' }} />
+          </motion.div>
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-5xl md:text-8xl leading-[0.9] mb-8"
+          >
+            Two Worlds of <br />
+            <span className="italic font-light text-brand">Excellence</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-ink/40 text-sm max-w-xl mx-auto"
+          >
+            Whether you seek raw beauty in fabrics or finished perfection in garments, 
+            Skyfab offers dedicated divisions for every requirement.
+          </motion.p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8">
+          {/* Fabrics Division */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="group relative"
+          >
+            <div className="relative overflow-hidden rounded-[40px] bg-ink h-[700px] flex flex-col p-12 text-paper shadow-2xl transition-transform duration-700 group-hover:scale-[1.01]">
+              <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700">
+                <img 
+                  src="https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&q=80&w=1000" 
+                  className="w-full h-full object-cover grayscale transition-transform duration-[2s] group-hover:scale-110"
+                  alt="Fabric Division"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
+              
+              <div className="relative z-10 mt-auto">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="bg-brand px-4 py-1.5 rounded-full text-[9px] uppercase tracking-widest font-bold">Wholesale / Hall-Sell</span>
+                </div>
+                <h3 className="text-4xl md:text-6xl mb-6">Fabric Division</h3>
+                <p className="text-paper/60 text-lg mb-10 max-w-md">
+                  Premium bulk fabric solutions for global distribution and high-end creation.
+                </p>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  {fabricCategories.slice(0, 10).map((cat, i) => (
+                    <div key={i} className="flex items-center gap-2 group/item">
+                      <div className="w-1.5 h-1.5 rounded-full bg-brand/50 group-hover/item:bg-brand transition-colors" />
+                      <span className="text-[11px] uppercase tracking-wider text-paper/40 group-hover/item:text-paper transition-colors cursor-default">{cat}</span>
+                    </div>
+                  ))}
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] uppercase tracking-wider text-brand font-bold italic">+ More Varieties</span>
+                  </div>
+                </div>
+
+                <div className="mt-12 flex gap-4">
+                  <button className="bg-paper text-ink px-8 py-4 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-brand hover:text-paper transition-all duration-500">
+                    Explore Fabrics
+                  </button>
+                  <button className="w-12 h-12 rounded-full border border-paper/20 flex items-center justify-center hover:bg-paper/10 transition-colors">
+                    <ArrowUpRight size={18} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Garments Division */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="group relative"
+          >
+            <div className="relative overflow-hidden rounded-[40px] bg-gold/10 h-[700px] flex flex-col p-12 text-ink shadow-2xl transition-transform duration-700 group-hover:scale-[1.01] border border-ink/5">
+              <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700">
+                <img 
+                  src="https://images.unsplash.com/photo-1445205174228-451b513477bb?auto=format&fit=crop&q=80&w=1000" 
+                  className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
+                  alt="Garment Division"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-paper via-paper/20 to-transparent" />
+              
+              <div className="relative z-10 mt-auto">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="bg-gold text-paper px-4 py-1.5 rounded-full text-[9px] uppercase tracking-widest font-bold">Export / Ready-made</span>
+                </div>
+                <h3 className="text-4xl md:text-6xl mb-6">Garment Division</h3>
+                <p className="text-ink/60 text-lg mb-10 max-w-md">
+                  Finished excellence for global markets. Ready-to-wear garments crafted with precision.
+                </p>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  {garmentCategories.map((cat, i) => (
+                    <div key={i} className="flex items-center gap-2 group/item">
+                      <div className="w-1.5 h-1.5 rounded-full bg-gold/50 group-hover/item:bg-gold transition-colors" />
+                      <span className="text-[11px] uppercase tracking-wider text-ink/40 group-hover/item:text-ink transition-colors cursor-default">{cat}</span>
+                    </div>
+                  ))}
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] uppercase tracking-wider text-gold font-bold italic">Indian Wear coming soon</span>
+                  </div>
+                </div>
+
+                <div className="mt-12 flex gap-4">
+                  <button className="bg-ink text-paper px-8 py-4 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-gold transition-all duration-500">
+                    Explore Garments
+                  </button>
+                  <button className="w-12 h-12 rounded-full border border-ink/20 flex items-center justify-center hover:bg-ink/5 transition-colors">
+                    <ArrowUpRight size={18} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 // --- Testimonials ---
 const Testimonials = () => {
   const [active, setActive] = useState(0);
@@ -1280,6 +1455,8 @@ const Footer = () => {
             <ul className="space-y-4 text-sm text-ink/50">
               {[
                 { name: 'Collections', href: '/collections' },
+                { name: 'Fabric Division', href: '/#divisions' },
+                { name: 'Garment Division', href: '/#divisions' },
                 { name: 'Our Services', href: '/services' },
                 { name: 'Global Network', href: '#network' },
                 { name: 'Shop All', href: `${import.meta.env.VITE_WC_URL || '#'}/shop` }
@@ -1351,6 +1528,7 @@ const HomePage = () => (
     <Hero />
     <MarqueeTicker />
     <Stats />
+    <ProductDivisions />
     <About />
     <Network />
     <div className="bg-paper py-32 text-center relative overflow-hidden">
@@ -1372,7 +1550,12 @@ const CollectionsPage = () => (
 );
 
 const ProcessesPage = () => (
-  <Materials />
+  <>
+    <div className="pt-20">
+      <ProductDivisions />
+      <Materials />
+    </div>
+  </>
 );
 
 const ServicesPage = () => (
