@@ -1,35 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Cormorant Garamond", serif;
-  --font-sans: "Inter", sans-serif;
+  --font-serif: "Outfit", sans-serif;
+  --font-sans: "Outfit", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  --color-paper: #fdfcf9;
-  --color-ink: #0d1b1b;
-  --color-brand: #008080;
-  --color-brand-light: #40e0d0;
-  --color-gold: #c5a059;
-  --color-champagne: #f5ead6;
-  --color-midnight: #002222;
-  --color-warm-gray: #e8e4de;
-  --color-accent: #ff4d4d; /* Adding a subtle accent color */
+  --color-paper: #ffffff;
+  --color-ink: #111111;
+  --color-brand: #004d4d;
+  --color-brand-light: #006666;
+  --color-gold: #c29b4e;
+  --color-gold-light: #e0c58e;
+  --color-champagne: #f7f4ee;
+  --color-midnight: #011212;
+  --color-warm-gray: #f5f3f0;
+  --color-accent: #d32f2f;
 }
 
 @layer base {
   body {
-    @apply bg-paper text-ink font-sans antialiased;
+    @apply bg-paper text-ink font-sans antialiased selection:bg-gold/20 selection:text-ink;
     overflow-x: hidden;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif;
+    @apply font-sans font-bold leading-tight tracking-tight; /* Simplified from serif */
   }
 
-  ::selection {
-    background: rgba(197, 160, 89, 0.3);
-    color: #1a1a1a;
+  p {
+    @apply leading-relaxed text-ink/80;
   }
 }
 

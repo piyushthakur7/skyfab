@@ -19,7 +19,9 @@ import {
   Star,
   Sparkles,
   ArrowUpRight,
-  Play
+  Play,
+  Zap,
+  Check
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -221,76 +223,68 @@ const Navbar = () => {
     <motion.nav 
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.8, delay: 3.2, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        "fixed top-0 left-0 w-full z-50 transition-all duration-700 px-6",
+        "fixed top-0 left-0 w-full z-50 transition-all duration-500 px-6 lg:px-12",
         isScrolled 
-          ? "bg-paper/90 backdrop-blur-xl border-b border-ink/5 py-3 shadow-sm" 
-          : "bg-transparent py-6"
+          ? "bg-white border-b border-black/10 py-4 shadow-sm" 
+          : "bg-white/90 backdrop-blur-md border-b border-black/5 py-6"
       )}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-10">
-          <a href="/" className="flex flex-col items-start group">
+      <div className="max-w-[1400px] mx-auto flex items-center justify-between">
+        <div className="flex items-center gap-12">
+          <a href="/" className="flex flex-col items-start group text-decoration-none">
             <div className="flex items-center gap-2">
-              <Globe size={24} className="text-brand animate-pulse-slow" />
-              <span className="text-2xl font-bold tracking-tighter">
-                <span className="text-ink">SKY</span>
-                <span className="text-brand">FAB</span>
+              <span className="text-2xl font-bold tracking-tight text-ink">
+                SKY<span className="text-gold">FAB</span>
               </span>
             </div>
-            <span className="text-[7px] tracking-[0.4em] font-bold text-ink/40 -mt-1 ml-8">OVERSEAS WORLDWIDE</span>
+            <span className="text-[10px] tracking-widest font-bold text-ink/40 uppercase">Overseas Worldwide</span>
           </a>
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link, i) => (
-              <motion.div 
+          
+          <div className="hidden lg:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link 
                 key={link.name}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 3.4 + i * 0.1 }}
+                to={link.href}
+                className="text-sm font-semibold text-ink/70 hover:text-gold transition-colors"
               >
-                <Link 
-                  to={link.href}
-                  className="relative text-xs uppercase tracking-[0.2em] font-medium hover:text-gold transition-colors duration-300 group"
-                >
-                  {link.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-gold transition-all duration-300 group-hover:w-full" />
-                </Link>
-              </motion.div>
+                {link.name}
+              </Link>
             ))}
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button className="p-2.5 hover:bg-ink/5 rounded-full transition-all duration-300 hidden sm:block hover:rotate-12">
-            <Search size={18} strokeWidth={1.5} />
-          </button>
-          <a 
-            href={`${import.meta.env.VITE_WC_URL || '#'}/cart`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2.5 hover:bg-ink/5 rounded-full transition-all duration-300 relative"
-          >
-            <ShoppingBag size={18} strokeWidth={1.5} />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-brand rounded-full" />
-          </a>
+        <div className="flex items-center gap-6">
+          <div className="hidden sm:flex items-center gap-4">
+            <button className="text-ink/60 hover:text-gold transition-colors">
+              <Search size={20} />
+            </button>
+            <a 
+              href={`${import.meta.env.VITE_WC_URL || '#'}/cart`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-ink/60 hover:text-gold transition-colors relative"
+            >
+              <ShoppingBag size={20} />
+              <span className="absolute -top-1 -right-1 w-2 h-2 bg-accent rounded-full" />
+            </a>
+          </div>
 
           <button 
-            className="md:hidden p-2"
+            className="lg:hidden p-2 text-ink"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X /> : <Menu />}
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+          
           <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="hidden md:flex items-center gap-2 bg-ink text-paper px-7 py-2.5 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-brand transition-all duration-500 group overflow-hidden relative shadow-lg shadow-ink/10"
+            className="hidden md:flex items-center gap-2 bg-ink text-white px-6 py-3 rounded-lg text-sm font-bold hover:bg-brand transition-colors"
           >
-            <span className="relative z-10 flex items-center gap-2">
-              Inquiry
-              <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </span>
-            <div className="absolute inset-0 bg-gold scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
+            Inquiry
+            <ArrowUpRight size={16} />
           </motion.button>
         </div>
       </div>
@@ -299,33 +293,24 @@ const Navbar = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute top-full left-0 w-full bg-paper/95 backdrop-blur-xl border-b border-ink/5 overflow-hidden md:hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-full left-0 w-full bg-paper/95 backdrop-blur-3xl border-b border-ink/5 overflow-hidden lg:hidden"
           >
-            <div className="p-8 flex flex-col gap-6">
+            <div className="p-10 flex flex-col gap-8">
               {navLinks.map((link, i) => (
-                <motion.div 
-                  key={link.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                >
+                <motion.div key={link.name}>
                   <Link 
                     to={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-2xl font-serif border-b border-ink/5 pb-4 flex justify-between items-center group"
+                    className="text-4xl font-sans text-ink border-b border-ink/5 pb-6 flex justify-between items-center group"
                   >
                     {link.name}
-                    <ArrowRight size={18} className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" />
+                    <ArrowRight size={24} className="text-gold opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-500" />
                   </Link>
                 </motion.div>
               ))}
-              <button className="bg-ink text-paper px-6 py-4 rounded-full text-xs uppercase tracking-[0.2em] font-bold mt-4">
-                Start Inquiry
-              </button>
             </div>
           </motion.div>
         )}
@@ -379,129 +364,64 @@ const Hero = () => {
     target: ref,
     offset: ["start start", "end start"]
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, 5]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   return (
-    <section ref={ref} className="relative h-screen min-h-[800px] flex items-center overflow-hidden bg-ink">
-      {/* Parallax Background */}
-      <motion.div className="absolute inset-0 z-0 origin-center" style={{ y, scale, rotate, opacity }}>
+    <section ref={ref} className="relative h-screen min-h-[800px] flex items-center overflow-hidden bg-white">
+      {/* Background with clean aesthetic */}
+      <motion.div className="absolute inset-0 z-0" style={{ y, scale, opacity }}>
         <img 
-          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=2000" 
-          alt="Abstract Textiles"
-          className="w-full h-full object-cover grayscale brightness-75 contrast-125"
+          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=2600" 
+          alt="Modern Textile"
+          className="w-full h-full object-cover filter brightness-[0.8] contrast-[1.1]"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/20 via-ink/60 to-ink" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent" />
       </motion.div>
 
-      <DigitalLoom />
-      
-      <div className="absolute inset-0 z-[1] grain-overlay opacity-30" />
-      <div className="vignette z-[2]" />
-
-      <FloatingThreads />
-
-      <motion.div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
-        <div className="max-w-4xl">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 w-full">
+        <div className="max-w-3xl">
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 3.2 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            {/* Eyebrow */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 3.4 }}
-              className="flex items-center gap-4 mb-12"
-            >
-              <div className="w-16 h-px bg-brand" />
-              <span className="text-paper/60 text-[10px] uppercase tracking-[0.5em] font-bold">
-                Pioneering Global Textiles Since 2006
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-1 bg-gold rounded-full" />
+              <span className="text-gold font-bold uppercase tracking-widest text-xs">
+                Since 2006 • Surat, India
               </span>
-            </motion.div>
-
-            {/* Main Title with staggered letters or words */}
-            <div className="overflow-hidden mb-2">
-              <motion.h1
-                initial={{ y: '100%', skewY: 10 }}
-                animate={{ y: 0, skewY: 0 }}
-                transition={{ duration: 1.2, delay: 3.6, ease: [0.22, 1, 0.36, 1] }}
-                className="text-7xl md:text-9xl lg:text-[12rem] text-paper leading-[0.8] tracking-tighter"
-              >
-                CRAFTING
-              </motion.h1>
-            </div>
-            <div className="overflow-hidden mb-12 flex items-center gap-8">
-              <motion.h1
-                initial={{ y: '100%', skewY: 10 }}
-                animate={{ y: 0, skewY: 0 }}
-                transition={{ duration: 1.2, delay: 3.8, ease: [0.22, 1, 0.36, 1] }}
-                className="text-7xl md:text-9xl lg:text-[12rem] text-brand leading-[0.8] tracking-tighter italic font-light"
-              >
-                CONNECTIONS
-              </motion.h1>
-              <motion.div
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 4.5, duration: 1 }}
-                className="hidden lg:block w-32 h-32 rounded-full border border-paper/10 flex items-center justify-center italic text-paper/30 text-xs"
-              >
-                World Class
-              </motion.div>
             </div>
 
-            {/* Description and CTA Row */}
-            <div className="flex flex-col md:flex-row md:items-end gap-12 mt-16">
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 4.2 }}
-                className="text-paper/50 text-base md:text-xl font-light max-w-sm leading-relaxed"
-              >
-                We bridge the gap between heritage looms and global latitudes, 
-                delivering premium textile solutions to the modern world.
-              </motion.p>
+            <h1 className="text-6xl md:text-8xl lg:text-9xl text-ink leading-tight mb-8 font-extrabold tracking-tight">
+              Premium <br />
+              <span className="text-gold">Textiles</span>
+            </h1>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 4.4 }}
-                className="flex items-center gap-6"
+            <p className="text-xl md:text-2xl text-ink/70 leading-relaxed mb-12 max-w-2xl font-medium">
+              We redefine global supply chains through artisanal heritage and technological precision, connecting master weavers to the world's finest fashion houses.
+            </p>
+            
+            <div className="flex flex-wrap items-center gap-6">
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="h-16 px-10 bg-ink text-white rounded-xl text-base font-bold shadow-lg hover:bg-brand transition-colors"
               >
-                <button className="group relative bg-brand text-paper h-16 px-10 rounded-full text-[11px] uppercase tracking-[0.2em] font-bold overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-brand/40">
-                  <span className="relative z-10 flex items-center gap-3">
-                    Our Heritage
-                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <div className="absolute inset-0 bg-paper scale-x-0 origin-right group-hover:scale-x-100 transition-transform duration-500" />
-                  <span className="absolute inset-0 flex items-center justify-center text-ink opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-bold z-20">
-                    Explore Now
-                  </span>
-                </button>
-                <button className="w-16 h-16 rounded-full border border-paper/20 flex items-center justify-center text-paper hover:bg-paper hover:text-ink transition-all duration-500 group">
-                  <Play size={20} fill="currentColor" className="ml-1 group-hover:scale-110 transition-transform" />
-                </button>
-              </motion.div>
+                View Collections
+              </motion.button>
+              <button className="flex items-center gap-3 text-ink/60 hover:text-ink transition-colors group">
+                <div className="w-12 h-12 rounded-full border-2 border-ink/10 flex items-center justify-center group-hover:border-gold group-hover:bg-gold/5 transition-all">
+                  <Play size={16} fill="currentColor" />
+                </div>
+                <span className="text-sm font-bold uppercase tracking-wider">Play Film</span>
+              </button>
             </div>
           </motion.div>
         </div>
-      </motion.div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 5.5, duration: 1 }}
-        className="absolute bottom-12 right-12 flex items-center gap-4 origin-right rotate-90"
-      >
-        <span className="text-paper/20 text-[9px] uppercase tracking-[0.5em] font-bold">Scroll to discover</span>
-        <div className="w-24 h-px bg-paper/10" />
-      </motion.div>
+      </div>
     </section>
   );
 };
@@ -558,7 +478,7 @@ const Stats = () => {
                 whileHover={{ scale: 1.05, y: -10 }}
                 className="text-center group cursor-pointer p-8 rounded-3xl hover:bg-white/5 transition-colors duration-500"
               >
-                <div className="text-5xl md:text-6xl font-serif mb-3 tabular-nums group-hover:text-brand transition-colors duration-300">
+                <div className="text-5xl md:text-6xl font-sans mb-3 tabular-nums group-hover:text-brand transition-colors duration-300">
                   {count}{stat.suffix}
                 </div>
                 <div className="golden-line mx-auto mb-4 group-hover:w-24 transition-all duration-500" />
@@ -733,7 +653,7 @@ const About = () => {
         style={{ x }}
         className="absolute top-1/2 -translate-y-1/2 whitespace-nowrap pointer-events-none select-none"
       >
-        <span className="text-[20vw] font-serif font-bold text-ink/[0.02] leading-none">
+        <span className="text-[20vw] font-sans font-bold text-ink/[0.02] leading-none">
           CRAFT & COMMERCE
         </span>
       </motion.div>
@@ -837,7 +757,7 @@ const Materials = () => {
               className="bg-paper/[0.03] border border-paper/10 p-8 rounded-3xl hover:bg-gold/10 hover:border-gold/30 transition-all duration-500 group"
             >
               <div className="text-3xl mb-4 group-hover:scale-110 transition-transform duration-500">{cat.icon}</div>
-              <h3 className="text-xl mb-2 font-serif group-hover:text-gold transition-colors">{cat.title}</h3>
+              <h3 className="text-xl mb-2 font-sans group-hover:text-gold transition-colors">{cat.title}</h3>
               <p className="text-[10px] text-paper/30 uppercase tracking-widest leading-loose">{cat.desc}</p>
             </motion.div>
           ))}
@@ -847,96 +767,81 @@ const Materials = () => {
   );
 };
 
-// --- Services / Divisions ---
+
 const Services = () => {
   const services = [
     {
-      icon: <Globe className="text-gold" size={28} strokeWidth={1.5} />,
-      title: "Print Solution One Roof",
-      desc: "Digital Print, Position Print with Foil, and Polyester Print all under one roof.",
-      features: ["Digital & Pos", "Foil Printing", "Polyester Experts"]
+      title: "Global Distribution",
+      desc: "Comprehensive supply chain solutions reaching fashion houses from Milan to Manhattan.",
+      icon: <Globe size={24} />,
+      features: ["Real-time Tracking", "Customs Clearance", "Bulk Logistics"]
     },
     {
-      icon: <Sparkles className="text-gold" size={28} strokeWidth={1.5} />,
-      title: "Value Addition Devesion",
-      desc: "In-house Tikli, Stone, Bonding, Folk, Handprint, and Technical Crushing.",
-      features: ["Stone/Bonding", "Handprint", "Tikli Process"]
+      title: "Artisanal Sourcing",
+      desc: "Connecting traditional heritage weavers with contemporary design requirements.",
+      icon: <Sparkles size={24} />,
+      features: ["Certified Organic", "Heritage Preservation", "Quality Assurance"]
     },
     {
-      icon: <Star className="text-gold" size={28} strokeWidth={1.5} />,
-      title: "Full Corian Process",
-      desc: "Comprehensive in-house coating and technical fabric enhancements.",
-      features: ["Full Coating", "Emboss Work", "Technical Gear"]
-    },
-    {
-      icon: <ShoppingBag className="text-gold" size={28} strokeWidth={1.5} />,
-      title: "Fabric Sales & Value",
-      desc: "Complete fabric supply solutions with all types of value-added processes.",
-      features: ["Bulk Supply", "Process Ready", "Global Shipping"]
-    },
-    {
-      icon: <ArrowUpRight className="text-gold" size={28} strokeWidth={1.5} />,
-      title: "Stitch & Garment",
-      desc: "Our ready-to-sell division, delivering finished garments and stitched excellence.",
-      features: ["Ready-for-Sell", "Quality Control", "Export Grade"]
-    },
-    {
-      icon: <ChevronRight className="text-gold" size={28} strokeWidth={1.5} />,
-      title: "Custom Development",
-      desc: "Specialized in all types of bespoke textile and garment development.",
-      features: ["R&D Team", "Prototyping", "Bespoke Solutions"]
+      title: "Custom Manufacturing",
+      desc: "Tailored garment solutions from concept to finished export-ready products.",
+      icon: <Zap size={24} />,
+      features: ["Pattern Design", "Batch Production", "Ethical Standards"]
     }
   ];
 
   return (
-    <section id="services" className="py-32 md:py-40 bg-paper relative overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-champagne/30 rounded-full blur-[120px]" />
+    <section id="services" className="py-32 md:py-64 bg-paper relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
       
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-[1800px] mx-auto px-6 lg:px-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="max-w-4xl mb-32"
         >
-          <div className="flex items-center gap-4 justify-center mb-6">
-            <div className="golden-line" />
-            <span className="text-gold text-[10px] uppercase tracking-[0.3em] font-bold">What We Do</span>
-            <div className="golden-line" style={{ transform: 'scaleX(-1)' }} />
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-1px bg-gold" />
+            <span className="text-gold text-[10px] uppercase tracking-[0.6em] font-black italic">Crafting Excellence</span>
           </div>
-          <h2 className="text-5xl md:text-7xl leading-[0.95]">
-            Excellence at{' '}
-            <span className="italic font-light">Every Step</span>
+          <h2 className="text-7xl lg:text-[10rem] leading-[0.85] tracking-tighter mb-12">
+            The World of <br />
+            <span className="italic font-light text-gold-light">Skyfab Overseas</span>
           </h2>
+          <p className="text-ink/40 text-2xl font-light leading-relaxed max-w-2xl border-l border-gold/20 pl-10 leading-relaxed font-sans">
+            We provide an end-to-end ecosystem for the textile industry, merging artisanal craftsmanship with industrial-scale logistics.
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-20">
           {services.map((service, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.15, duration: 0.8 }}
-              className="service-card group"
+              transition={{ delay: idx * 0.2, duration: 1 }}
+              className="relative group p-12 rounded-[50px] border border-ink/[0.03] hover:border-gold/20 hover:bg-gold/[0.01] transition-all duration-700 bg-white shadow-[0_40px_100px_-30px_rgba(0,0,0,0.03)]"
             >
-              <div className="w-14 h-14 bg-gold/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-gold/20 transition-colors duration-500">
+              <div className="w-16 h-16 bg-gold/5 rounded-2xl flex items-center justify-center mb-10 group-hover:bg-gold group-hover:text-paper transition-all duration-700 shadow-xl shadow-gold/5">
                 {service.icon}
               </div>
-              <h3 className="text-3xl mb-4">{service.title}</h3>
-              <p className="text-ink/60 leading-relaxed mb-8">
+              <h3 className="text-4xl mb-6 font-sans">{service.title}</h3>
+              <p className="text-ink/50 leading-relaxed mb-10 text-lg font-light">
                 {service.desc}
               </p>
-              <div className="flex flex-wrap gap-2 mb-8">
+              <div className="flex flex-wrap gap-3 mb-10">
                 {service.features.map((feature, i) => (
-                  <span key={i} className="text-[9px] uppercase tracking-[0.15em] font-bold bg-ink/5 px-3 py-1.5 rounded-full">
+                  <span key={i} className="text-[10px] uppercase tracking-[0.2em] font-black text-ink/30 border border-ink/5 px-4 py-2 rounded-full group-hover:border-gold/20 group-hover:text-gold transition-colors duration-500">
                     {feature}
                   </span>
                 ))}
               </div>
-              <a href="#" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-bold group-hover:text-gold transition-colors duration-300">
-                Learn More <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              <a href="#" className="inline-flex items-center gap-4 text-[11px] uppercase tracking-[0.4em] font-black group-hover:text-gold transition-all duration-500 relative">
+                Explore Solution
+                <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform" />
+                <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-700" />
               </a>
             </motion.div>
           ))}
@@ -953,88 +858,90 @@ const Network = () => {
     target: ref,
     offset: ["start end", "end start"]
   });
-  const imgY = useTransform(scrollYProgress, [0, 1], ["5%", "-5%"]);
+  const imgY = useTransform(scrollYProgress, [0, 1], ["8%", "-8%"]);
 
   return (
-    <section id="network" ref={ref} className="py-32 md:py-40 bg-midnight text-paper overflow-hidden relative">
-      {/* Glowing orbs */}
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gold/5 rounded-full blur-[150px]" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-[100px]" />
+    <section id="network" ref={ref} className="py-32 md:py-64 bg-[#050a0a] text-paper overflow-hidden relative">
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-ink via-transparent to-ink opacity-60" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-gold/5 rounded-full blur-[200px] opacity-30" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+      <div className="max-w-[1800px] mx-auto px-6 lg:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="relative"
-          >
-            <div className="absolute -top-10 -left-10 w-64 h-64 bg-gold/10 rounded-full blur-3xl" />
-            <div className="relative overflow-hidden rounded-3xl">
-              <motion.img 
-                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1000" 
-                alt="Global Network"
-                className="w-full h-auto"
-                style={{ y: imgY }}
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-midnight/60 via-transparent to-transparent" />
-            </div>
-            {/* Floating stat card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
-              className="absolute -bottom-6 -right-6 bg-paper/10 backdrop-blur-xl border border-paper/10 rounded-2xl p-6 animate-border-glow"
-            >
-              <div className="text-4xl font-serif mb-1">12</div>
-              <div className="text-[9px] uppercase tracking-[0.2em] text-paper/50 font-bold">Strategic Hubs</div>
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 1.2 }}
+            className="lg:col-span-12 xl:col-span-5"
           >
-            <div className="flex items-center gap-4 mb-6">
-              <div className="golden-line" />
-              <span className="text-gold text-[10px] uppercase tracking-[0.3em] font-bold">Our Reach</span>
+            <div className="flex items-center gap-6 mb-12">
+              <div className="w-20 h-[1px] bg-gold" />
+              <span className="text-gold text-[10px] uppercase tracking-[0.8em] font-black">Global Reach</span>
             </div>
-            <h2 className="text-5xl md:text-7xl mb-8 leading-[0.95]">
-              A Seamless{' '}
-              <br />
-              <span className="italic font-light">Global Network</span>
+            <h2 className="text-7xl lg:text-9xl mb-12 leading-[0.85] tracking-tighter">
+              Seamless <br />
+              <span className="italic font-light text-gold-light">Operations</span>
             </h2>
-            <p className="text-lg text-paper/50 mb-12 leading-relaxed">
-              With offices in Mumbai, Dubai, London, and New York, our local presence ensures we understand regional market nuances while maintaining a unified global standard of excellence.
+            <p className="text-xl text-paper/40 mb-16 leading-relaxed max-w-xl font-light">
+              From the historic textile hubs of Surat to the fashion runways of Dubai, London, and New York. Our intelligent network ensures quality and speed at every latitude.
             </p>
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               {[
-                { city: 'Strategic Hubs in 12 Major Cities', detail: 'From Mumbai to Manhattan' },
-                { city: 'Real-time Shipment Tracking', detail: 'GPS-enabled logistics' },
-                { city: 'Multilingual Support Teams', detail: '14 languages supported' }
+                { city: 'Strategic Hubs', val: '12+', detail: 'Global textile capitals' },
+                { city: 'Logistics Precision', val: '0.1s', detail: 'Real-time sync' },
+                { city: 'Expert Support', val: '24/7', detail: 'Multilingual concierge' },
+                { city: 'Safe Transit', val: '100%', detail: 'Insured worldwide' }
               ].map((item, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.3 + i * 0.1 }}
-                  className="flex items-center gap-4 group cursor-pointer"
+                  className="flex flex-col gap-2 group cursor-pointer"
                 >
-                  <div className="w-2.5 h-2.5 bg-gold rounded-full animate-pulse-gold" />
-                  <div>
-                    <span className="text-sm font-medium tracking-wide group-hover:text-gold transition-colors duration-300">
-                      {item.city}
-                    </span>
-                    <span className="text-paper/30 text-xs ml-3">{item.detail}</span>
-                  </div>
+                  <span className="text-4xl font-sans text-gold group-hover:scale-110 transition-transform origin-left">{item.val}</span>
+                  <div className="h-[1px] w-12 bg-paper/10 group-hover:w-full transition-all duration-700" />
+                  <span className="text-[10px] uppercase tracking-[0.3em] font-black text-paper/30 group-hover:text-paper transition-colors">{item.city}</span>
                 </motion.div>
               ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5 }}
+            className="lg:col-span-12 xl:col-span-7 relative"
+          >
+            <div className="relative overflow-hidden rounded-[80px] shadow-[0_100px_150px_-50px_rgba(0,0,0,0.8)] border border-paper/5 h-[800px]">
+              <motion.img 
+                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2000" 
+                alt="Global Network"
+                className="w-full h-full object-cover filter brightness-[0.4] saturate-[0.1]"
+                style={{ y: imgY }}
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+              <div className="absolute inset-0 bg-brand/5 group-hover:bg-brand/0 transition-colors duration-1000" />
+              
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-[600px] h-[600px] rounded-full border border-gold/10 animate-spin-slow flex items-center justify-center">
+                  <div className="w-[450px] h-[450px] rounded-full border border-brand/5 animate-pulse flex items-center justify-center">
+                    <Globe size={80} className="text-gold opacity-40" strokeWidth={1} />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Floating marker */}
+            <div className="absolute top-1/4 left-1/4 flex items-center gap-4 bg-paper/5 backdrop-blur-xl border border-paper/10 p-6 rounded-3xl animate-float">
+                <div className="w-3 h-3 rounded-full bg-gold shadow-[0_0_15px_rgba(197,160,89,1)]" />
+                <div className="flex flex-col">
+                  <span className="text-[10px] uppercase tracking-widest font-bold">Surat Hub</span>
+                  <span className="text-[8px] tracking-widest text-paper/30">Headquarters</span>
+                </div>
             </div>
           </motion.div>
         </div>
@@ -1046,171 +953,160 @@ const Network = () => {
 // --- Product Divisions (New Section for Fabrics and Garments) ---
 const ProductDivisions = () => {
   const fabricCategories = [
-    "Cotton Fabrics",
-    "Pure Silk Fabrics",
-    "Pure Natural Organic Fabrics",
-    "Viscose Fabrics",
-    "Nylon Fabrics",
-    "Knitted Fabrics / Lycra",
-    "Polyester Fabrics",
-    "Embroidery Fabrics",
-    "Curtains Fabrics",
-    "Kids Western Garment Fabrics",
-    "Hijab Fabrics",
-    "Burakha Fabrics"
+    "Cotton & Organic",
+    "Pure Silk Excellence",
+    "Viscose & Rayon",
+    "Nylon & Technical",
+    "Knitted & Lycra",
+    "Polyester Master",
+    "Embroidery Arts",
+    "Signature Curtains",
+    "Western Garment Sub",
+    "Hijab & Burakha"
   ];
 
   const garmentCategories = [
-    "Kaftan",
-    "Hijab",
-    "Scarf",
-    "Casual wear",
-    "Formal wear",
-    "Business Attire",
-    "Active Wear",
-    "Maxy Gown"
+    "Signature Kaftan",
+    "Luxe Hijab",
+    "Artisan Scarf",
+    "Contemporary Casual",
+    "Formal Excellence",
+    "Business Precision",
+    "High-Performance Active",
+    "Grand Maxy Gowns"
   ];
 
   return (
-    <section id="divisions" className="py-32 md:py-48 bg-paper relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand/10 to-transparent" />
+    <section id="divisions" className="py-32 md:py-64 bg-paper relative overflow-hidden lg:px-12">
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold/[0.03] rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/[0.02] rounded-full blur-[150px] pointer-events-none" />
       
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex items-center gap-4 justify-center mb-6"
-          >
-            <div className="golden-line" />
-            <span className="text-gold text-[10px] uppercase tracking-[0.3em] font-bold">Our Specializations</span>
-            <div className="golden-line" style={{ transform: 'rotate(180deg)' }} />
-          </motion.div>
-          <motion.h2 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-5xl md:text-8xl leading-[0.9] mb-8"
-          >
-            Two Worlds of <br />
-            <span className="italic font-light text-brand">Excellence</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-ink/40 text-sm max-w-xl mx-auto"
-          >
-            Whether you seek raw beauty in fabrics or finished perfection in garments, 
-            Skyfab offers dedicated divisions for every requirement.
-          </motion.p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8">
-          {/* Fabrics Division */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="group relative"
-          >
-            <div className="relative overflow-hidden rounded-[40px] bg-ink h-[700px] flex flex-col p-12 text-paper shadow-2xl transition-transform duration-700 group-hover:scale-[1.01]">
-              <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700">
-                <img 
-                  src="https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&q=80&w=1000" 
-                  className="w-full h-full object-cover grayscale transition-transform duration-[2s] group-hover:scale-110"
-                  alt="Fabric Division"
-                />
+      <div className="max-w-[1800px] mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-start">
+          <div className="lg:col-span-4 lg:sticky lg:top-40">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-4 mb-8"
+            >
+              <div className="w-12 h-0.5 bg-brand" />
+              <span className="text-brand text-[10px] uppercase tracking-[0.6em] font-black">Our Ecosystem</span>
+            </motion.div>
+            <motion.h2 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-7xl lg:text-9xl leading-[0.85] mb-10 tracking-tighter"
+            >
+              Bespoke <br />
+              <span className="italic font-light text-gold-light">Solutions</span>
+            </motion.h2>
+            <p className="text-ink/40 text-lg leading-relaxed mb-12 max-w-sm">
+              Explore our specialized divisions crafted to serve the distinct needs of fabric wholesalers and garment exporters worldwide.
+            </p>
+            <div className="flex flex-col gap-6">
+              <div className="group cursor-pointer">
+                <div className="text-[10px] uppercase tracking-[0.2em] font-bold text-ink/20 group-hover:text-brand transition-colors">Path 01</div>
+                <div className="text-2xl font-sans mt-1 flex items-center gap-3">
+                  Raw Materials
+                  <ArrowRight size={18} className="opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all" />
+                </div>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
-              
-              <div className="relative z-10 mt-auto">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="bg-brand px-4 py-1.5 rounded-full text-[9px] uppercase tracking-widest font-bold">Wholesale / Hall-Sell</span>
-                </div>
-                <h3 className="text-4xl md:text-6xl mb-6">Fabric Division</h3>
-                <p className="text-paper/60 text-lg mb-10 max-w-md">
-                  Premium bulk fabric solutions for global distribution and high-end creation.
-                </p>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  {fabricCategories.slice(0, 10).map((cat, i) => (
-                    <div key={i} className="flex items-center gap-2 group/item">
-                      <div className="w-1.5 h-1.5 rounded-full bg-brand/50 group-hover/item:bg-brand transition-colors" />
-                      <span className="text-[11px] uppercase tracking-wider text-paper/40 group-hover/item:text-paper transition-colors cursor-default">{cat}</span>
-                    </div>
-                  ))}
-                  <div className="flex items-center gap-2">
-                    <span className="text-[11px] uppercase tracking-wider text-brand font-bold italic">+ More Varieties</span>
-                  </div>
-                </div>
-
-                <div className="mt-12 flex gap-4">
-                  <button className="bg-paper text-ink px-8 py-4 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-brand hover:text-paper transition-all duration-500">
-                    Explore Fabrics
-                  </button>
-                  <button className="w-12 h-12 rounded-full border border-paper/20 flex items-center justify-center hover:bg-paper/10 transition-colors">
-                    <ArrowUpRight size={18} />
-                  </button>
+              <div className="group cursor-pointer">
+                <div className="text-[10px] uppercase tracking-[0.2em] font-bold text-ink/20 group-hover:text-gold transition-colors">Path 02</div>
+                <div className="text-2xl font-sans mt-1 flex items-center gap-3">
+                  Finished Goods
+                  <ArrowRight size={18} className="opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all" />
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Garments Division */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="group relative"
-          >
-            <div className="relative overflow-hidden rounded-[40px] bg-gold/10 h-[700px] flex flex-col p-12 text-ink shadow-2xl transition-transform duration-700 group-hover:scale-[1.01] border border-ink/5">
-              <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700">
-                <img 
-                  src="https://images.unsplash.com/photo-1445205174228-451b513477bb?auto=format&fit=crop&q=80&w=1000" 
-                  className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
-                  alt="Garment Division"
-                />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-paper via-paper/20 to-transparent" />
+          <div className="lg:col-span-8 flex flex-col gap-16">
+            {/* Fabrics Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              className="group relative h-[800px] rounded-[60px] overflow-hidden bg-ink shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)]"
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=1600" 
+                className="absolute inset-0 w-full h-full object-cover filter brightness-[0.5] contrast-[1.1] transition-transform duration-[3s] group-hover:scale-110"
+                alt="Fabric Wholesale"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+              <div className="absolute inset-0 bg-brand/10 group-hover:bg-brand/0 transition-colors duration-1000" />
               
-              <div className="relative z-10 mt-auto">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="bg-gold text-paper px-4 py-1.5 rounded-full text-[9px] uppercase tracking-widest font-bold">Export / Ready-made</span>
-                </div>
-                <h3 className="text-4xl md:text-6xl mb-6">Garment Division</h3>
-                <p className="text-ink/60 text-lg mb-10 max-w-md">
-                  Finished excellence for global markets. Ready-to-wear garments crafted with precision.
+              <div className="absolute bottom-0 left-0 w-full p-12 lg:p-20 flex flex-col items-start z-10">
+                <span className="bg-brand/20 backdrop-blur-md border border-brand/30 text-paper text-[10px] uppercase tracking-[0.4em] font-black px-6 py-2 rounded-full mb-8">
+                  Commercial Wholesale
+                </span>
+                <h3 className="text-5xl lg:text-7xl text-paper mb-6 font-black italic">Fabric Hub</h3>
+                <p className="text-paper/40 text-xl max-w-md mb-12 font-light">
+                  Bridging the gap between the loom and global latitudes with premium textile bulk solutions.
                 </p>
-                
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-x-12 gap-y-4 mb-16">
+                  {fabricCategories.map((cat, i) => (
+                    <motion.div 
+                      key={i} 
+                      className="flex items-center gap-4 group/item cursor-default"
+                      whileHover={{ x: 5 }}
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-brand group-hover/item:scale-150 transition-transform shadow-[0_0_10px_rgba(0,128,128,1)]" />
+                      <span className="text-[11px] uppercase tracking-widest text-paper/30 group-hover/item:text-paper transition-colors font-bold">{cat}</span>
+                    </motion.div>
+                  ))}
+                </div>
+                <button className="h-14 px-10 bg-paper text-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-black hover:bg-brand hover:text-paper transition-all duration-700">
+                  Bulk Catalog Access
+                </button>
+              </div>
+            </motion.div>
+
+            {/* Garments Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="group relative h-[800px] rounded-[60px] overflow-hidden bg-gold/10 shadow-[0_50px_100px_-20px_rgba(197,160,89,0.3)] mt-24 lg:mt-0"
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1520004434532-668416a08753?auto=format&fit=crop&q=80&w=1600" 
+                className="absolute inset-0 w-full h-full object-cover filter brightness-[0.5] group-hover:brightness-[0.7] transition-all duration-[3s] group-hover:scale-110"
+                alt="Garment Export"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent" />
+              
+              <div className="absolute bottom-0 left-0 w-full p-12 lg:p-20 flex flex-col items-start z-10">
+                <span className="bg-gold/20 backdrop-blur-md border border-gold/30 text-paper text-[10px] uppercase tracking-[0.4em] font-black px-6 py-2 rounded-full mb-8">
+                  Export Operations
+                </span>
+                <h3 className="text-5xl lg:text-7xl text-paper mb-6 font-black font-sans">Garment Unit</h3>
+                <p className="text-paper/40 text-xl max-w-md mb-12 font-light">
+                  Direct-from-factory ready-to-wear excellence tailored for international retailers.
+                </p>
+                <div className="grid grid-cols-2 gap-x-12 gap-y-4 mb-16">
                   {garmentCategories.map((cat, i) => (
-                    <div key={i} className="flex items-center gap-2 group/item">
-                      <div className="w-1.5 h-1.5 rounded-full bg-gold/50 group-hover/item:bg-gold transition-colors" />
-                      <span className="text-[11px] uppercase tracking-wider text-ink/40 group-hover/item:text-ink transition-colors cursor-default">{cat}</span>
-                    </div>
+                    <motion.div 
+                      key={i} 
+                      className="flex items-center gap-4 group/item cursor-default"
+                      whileHover={{ x: 5 }}
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-gold group-hover/item:scale-150 transition-transform shadow-[0_0_10px_rgba(197,160,89,1)]" />
+                      <span className="text-[11px] uppercase tracking-widest text-paper/30 group-hover/item:text-paper transition-colors font-bold">{cat}</span>
+                    </motion.div>
                   ))}
-                  <div className="flex items-center gap-2">
-                    <span className="text-[11px] uppercase tracking-wider text-gold font-bold italic">Indian Wear coming soon</span>
-                  </div>
                 </div>
-
-                <div className="mt-12 flex gap-4">
-                  <button className="bg-ink text-paper px-8 py-4 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-gold transition-all duration-500">
-                    Explore Garments
-                  </button>
-                  <button className="w-12 h-12 rounded-full border border-ink/20 flex items-center justify-center hover:bg-ink/5 transition-colors">
-                    <ArrowUpRight size={18} />
-                  </button>
-                </div>
+                <button className="h-14 px-10 bg-gold text-paper rounded-full text-[10px] uppercase tracking-[0.3em] font-black hover:bg-paper hover:text-ink transition-all duration-700 shadow-xl shadow-gold/20">
+                  Export Pricing Request
+                </button>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
@@ -1281,7 +1177,7 @@ const Testimonials = () => {
                 <Star key={i} size={16} fill="#c5a059" className="text-gold" />
               ))}
             </div>
-            <blockquote className="text-2xl md:text-3xl font-serif leading-relaxed mb-10 text-ink/80 italic">
+            <blockquote className="text-2xl md:text-3xl font-sans leading-relaxed mb-10 text-ink/80 italic">
               "{testimonials[active].quote}"
             </blockquote>
             <div>
@@ -1428,92 +1324,109 @@ const Contact = () => {
 
 // --- Footer ---
 const Footer = () => {
+  const commonLinks = [
+    { name: 'Collections', href: '#collections' },
+    { name: 'Our Processes', href: '/processes' },
+    { name: 'Services', href: '/services' },
+    { name: 'Fabric Division', href: '#divisions' },
+    { name: 'Garment Division', href: '#divisions' },
+    { name: 'About Skyfab', href: '/about' },
+    { name: 'Global Network', href: '#network' },
+  ];
+
   return (
-    <footer className="py-24 bg-paper border-t border-ink/5 relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-[500px] h-[300px] bg-champagne/20 rounded-full blur-[120px]" />
-      
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
-          <div className="col-span-1 lg:col-span-1">
-            <div className="text-2xl font-serif font-bold tracking-tight mb-6">
-              SKY<span className="text-gold">FAB</span>
-            </div>
-            <p className="text-ink/50 text-sm leading-relaxed mb-8">
-              Excellence in textile commerce for over 20 years. Bridging the gap between global craft and international demand.
+    <footer className="bg-paper border-t border-ink/5 pt-32 pb-12 lg:px-12">
+      <div className="max-w-[1800px] mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-20 mb-32">
+          <div className="lg:col-span-4 translate-y-[-10px]">
+            <a href="/" className="flex flex-col items-start group relative mb-10 text-decoration-none">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-brand flex items-center justify-center text-white">
+                  <Globe size={20} strokeWidth={2} />
+                </div>
+                <span className="text-4xl font-sans font-black tracking-tighter text-ink flex items-baseline">
+                  SKY<span className="text-gold">FAB</span>
+                </span>
+              </div>
+              <span className="text-[9px] tracking-[0.6em] font-black text-ink/30 mt-2 ml-14 uppercase italic">Overseas Worldwide</span>
+            </a>
+            <p className="text-ink/40 text-lg leading-relaxed max-w-sm mb-12 font-light">
+              Crafting excellence in every weave. From our strategic hub in Surat to fashion capitals globally, we are your partner in premium textile solutions.
             </p>
-            <div className="flex gap-3">
-              {[Instagram, Linkedin, Mail].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full border border-ink/10 flex items-center justify-center hover:bg-ink hover:text-paper hover:border-ink transition-all duration-500 hover:-translate-y-1">
-                  <Icon size={16} strokeWidth={1.5} />
-                </a>
+            <div className="flex gap-6">
+              {['Instagram', 'LinkedIn', 'Vogue Business', 'Pinterest'].map((social) => (
+                <a key={social} href="#" className="text-[10px] uppercase tracking-[0.2em] font-bold text-ink/30 hover:text-gold transition-colors">{social}</a>
               ))}
             </div>
           </div>
-          
-          <div>
-            <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold mb-8">Quick Links</h4>
-            <ul className="space-y-4 text-sm text-ink/50">
-              {[
-                { name: 'Collections', href: '/collections' },
-                { name: 'Fabric Division', href: '/#divisions' },
-                { name: 'Garment Division', href: '/#divisions' },
-                { name: 'Our Services', href: '/services' },
-                { name: 'Global Network', href: '#network' },
-                { name: 'Shop All', href: `${import.meta.env.VITE_WC_URL || '#'}/shop` }
-              ].map((link) => (
+
+          <div className="lg:col-span-2">
+            <h4 className="text-[10px] uppercase tracking-[0.4em] font-black mb-10 text-brand">Navigation</h4>
+            <ul className="space-y-5">
+              {commonLinks.slice(0, 4).map((link) => (
                 <li key={link.name}>
                   {link.href.startsWith('/') ? (
-                    <Link to={link.href} className="hover:text-gold transition-colors duration-300 flex items-center gap-2 group">
-                      <span className="w-0 h-px bg-gold transition-all duration-300 group-hover:w-4" />
+                    <Link to={link.href} className="text-sm font-semibold text-ink/60 hover:text-gold transition-colors duration-300 flex items-center gap-2 group">
+                      <span className="w-0 h-px bg-gold transition-all duration-500 group-hover:w-4" />
                       {link.name}
                     </Link>
                   ) : (
-                    <a href={link.href} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors duration-300 flex items-center gap-2 group">
-                      <span className="w-0 h-px bg-gold transition-all duration-300 group-hover:w-4" />
+                    <a href={link.href} className="text-sm font-semibold text-ink/60 hover:text-gold transition-colors duration-300 flex items-center gap-2 group">
+                      <span className="w-0 h-px bg-gold transition-all duration-500 group-hover:w-4" />
                       {link.name}
                     </a>
                   )}
                 </li>
               ))}
             </ul>
-
           </div>
 
-          <div>
-            <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold mb-8">Support</h4>
-            <ul className="space-y-4 text-sm text-ink/50">
-              {['Inquiry Form', 'Shipping Policy', 'Terms of Trade', 'Privacy Policy'].map((link) => (
-                <li key={link}>
-                  <a href="#" className="hover:text-gold transition-colors duration-300 flex items-center gap-2 group">
-                    <span className="w-0 h-px bg-gold transition-all duration-300 group-hover:w-4" />
-                    {link}
+          <div className="lg:col-span-2">
+            <h4 className="text-[10px] uppercase tracking-[0.4em] font-black mb-10 text-brand">Divisions</h4>
+            <ul className="space-y-5">
+              {commonLinks.slice(4).map((link) => (
+                <li key={link.name}>
+                  <a href={link.href} className="text-sm font-semibold text-ink/60 hover:text-gold transition-colors duration-300 flex items-center gap-2 group">
+                    <span className="w-0 h-px bg-gold transition-all duration-500 group-hover:w-4" />
+                    {link.name}
                   </a>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div>
-            <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold mb-8">Newsletter</h4>
-            <p className="text-sm text-ink/50 mb-6">Stay updated with global textile trends and market insights.</p>
-            <div className="flex gap-2">
-              <input 
-                type="email" 
-                placeholder="Email address" 
-                className="bg-ink/5 border border-ink/5 rounded-full px-5 py-3 text-sm outline-none w-full focus:border-gold/30 transition-colors duration-300 placeholder:text-ink/30" 
-              />
-              <button className="bg-ink text-paper p-3 rounded-full hover:bg-gold transition-all duration-500 hover:shadow-lg hover:shadow-gold/20 shrink-0">
-                <ArrowRight size={16} />
-              </button>
+          <div className="lg:col-span-4">
+            <h4 className="text-[10px] uppercase tracking-[0.4em] font-black mb-10 text-brand">Global Inquiries</h4>
+            <p className="text-ink/40 text-sm mb-8 font-light">Join our exclusive network and receive seasonal catalog updates and market reports.</p>
+            <div className="relative group overflow-hidden rounded-full p-[1px]">
+               <div className="absolute inset-0 bg-gradient-to-r from-brand via-gold to-brand animate-spin-slow opacity-20 group-hover:opacity-100 transition-opacity" />
+               <div className="relative bg-paper rounded-full flex gap-2 p-2">
+                  <input 
+                    type="email" 
+                    placeholder="Concierge Email" 
+                    className="bg-transparent px-6 py-3 text-sm outline-none w-full placeholder:text-ink/20 font-semibold" 
+                  />
+                  <button className="bg-ink text-paper h-12 px-8 rounded-full hover:bg-brand transition-all duration-500 hover:shadow-2xl hover:shadow-brand/20 font-black text-[10px] uppercase tracking-widest shrink-0">
+                    Inquire
+                  </button>
+               </div>
+            </div>
+            <div className="mt-12 pt-12 border-t border-ink/5">
+              <span className="text-[9px] uppercase tracking-[0.3em] font-black text-ink/20 block mb-4">Official Developers</span>
+              <a href="https://webtotalsolution.com" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-ink/40 hover:text-brand transition-colors">
+                WEBTOTALSOLUTION.COM
+              </a>
             </div>
           </div>
         </div>
         
-        <div className="pt-10 border-t border-ink/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] uppercase tracking-[0.3em] font-bold text-ink/30">
-          <div>© 2026 Skyfab. All Rights Reserved.</div>
-          <div className="flex gap-8">
-            {['Cookies', 'Legal', 'Sitemap'].map((link) => (
-              <a key={link} href="#" className="hover:text-gold transition-colors duration-300">{link}</a>
+        <div className="pt-12 border-t border-ink/5 flex flex-col md:flex-row justify-between items-center gap-10">
+          <div className="text-[9px] uppercase tracking-[0.4em] font-black text-ink/20">
+            © 2026 SKYFAB. ALL RIGHTS RESERVED. BEYOND TEXTILES, CRAFTING LEGACIES.
+          </div>
+          <div className="flex gap-10">
+            {['Privacy', 'Trade Terms', 'Compliance', 'Security'].map((link) => (
+              <a key={link} href="#" className="text-[9px] uppercase tracking-[0.4em] font-black text-ink/20 hover:text-gold transition-colors">{link}</a>
             ))}
           </div>
         </div>
@@ -1533,7 +1446,7 @@ const HomePage = () => (
     <Network />
     <div className="bg-paper py-32 text-center relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-ink/10 to-transparent" />
-      <Link to="/collections" className="group text-4xl md:text-6xl font-serif hover:text-brand transition-colors inline-block relative px-12 py-6">
+      <Link to="/collections" className="group text-4xl md:text-6xl font-sans hover:text-brand transition-colors inline-block relative px-12 py-6">
         <span className="relative z-10 flex items-center gap-6">
           Explore Our World
           <ArrowRight size={40} className="group-hover:translate-x-4 transition-transform duration-500" />
