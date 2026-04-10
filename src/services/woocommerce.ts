@@ -54,10 +54,21 @@ export async function getProducts(params: Record<string, any> = {}) {
   });
 
   try {
-    const response = await fetch(`${WC_URL}/wp-json/wc/v3/products?${queryParams.toString()}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch products: ${response.statusText}`);
+    const url = `${WC_URL.replace(/\/$/, '')}/wp-json/wc/v3/products?${queryParams.toString()}`;
+    const response = await fetch(url);
+    
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      console.error('Expected JSON but received:', text.substring(0, 200));
+      throw new Error(`WooCommerce API returned non-JSON response (${response.status}). Check server configuration.`);
     }
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`WooCommerce API Error: ${errorData.message || response.statusText}`);
+    }
+
     const data = await response.json();
     return data as WCProduct[];
   } catch (error) {
@@ -76,10 +87,13 @@ export async function getProduct(id: number | string) {
   });
 
   try {
-    const response = await fetch(`${WC_URL}/wp-json/wc/v3/products/${id}?${queryParams.toString()}`);
+    const url = `${WC_URL.replace(/\/$/, '')}/wp-json/wc/v3/products/${id}?${queryParams.toString()}`;
+    const response = await fetch(url);
+    
     if (!response.ok) {
       throw new Error(`Failed to fetch product: ${response.statusText}`);
     }
+    
     const data = await response.json();
     return data as WCProduct;
   } catch (error) {
@@ -98,14 +112,29 @@ export async function getCategories() {
   });
 
   try {
-    const response = await fetch(`${WC_URL}/wp-json/wc/v3/products/categories?${queryParams.toString()}`);
+    const url = `${WC_URL.replace(/\/$/, '')}/wp-json/wc/v3/products/categories?${queryParams.toString()}`;
+    const response = await fetch(url);
+    
     if (!response.ok) {
       throw new Error(`Failed to fetch categories: ${response.statusText}`);
     }
+    
     const data = await response.json();
     return data;
   } catch (error) {
     console.error('Error fetching categories:', error);
     return [];
+  }
+}
+
+/**
+ * Validates the connection to WooCommerce
+ */
+export async function validateConnection() {
+  try {
+    const categories = await getCategories();
+    return categories && Array.isArray(categories);
+  } catch (e) {
+    return false;
   }
 }
