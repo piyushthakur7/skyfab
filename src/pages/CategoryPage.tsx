@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Check, Loader2, AlertCircle } from 'lucide-react';
+import { Check, Loader2, AlertCircle, ShoppingCart } from 'lucide-react';
 import { getProducts, WCProduct } from '../services/woocommerce';
+import { useCart } from '../context/CartContext';
 
 export const CategoryPage = ({ title, desc, items: staticItems, image, categoryId }: { title: string; desc: string; items: string[]; image: string; categoryId?: number }) => {
   const [products, setProducts] = useState<WCProduct[]>([]);
   const [loading, setLoading] = useState(!!categoryId);
   const [error, setError] = useState<string | null>(null);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     if (!categoryId) return;
@@ -70,7 +72,7 @@ export const CategoryPage = ({ title, desc, items: staticItems, image, categoryI
               {(products.length > 0 ? products : []).map((product, i) => (
                 <motion.div key={product.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }} transition={{ delay: i * 0.05 }}
-                  className="bg-white rounded-2xl border border-ink/5 overflow-hidden hover:shadow-xl transition-all group">
+                  className="bg-white rounded-2xl border border-ink/5 overflow-hidden hover:shadow-xl transition-all group flex flex-col">
                   <div className="aspect-[3/4] overflow-hidden relative">
                     <img 
                       src={product.images[0]?.src || image} 
@@ -81,15 +83,25 @@ export const CategoryPage = ({ title, desc, items: staticItems, image, categoryI
                       {product.categories[0]?.name || title}
                     </div>
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-serif mb-2">{product.name}</h3>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="flex justify-between items-start gap-2 mb-2">
+                      <h3 className="text-xl font-serif">{product.name}</h3>
+                      <span className="text-lg font-bold text-ink">₹{product.price}</span>
+                    </div>
                     <div 
-                      className="text-ink/60 text-sm font-sans mb-4 line-clamp-2"
+                      className="text-ink/60 text-sm font-sans mb-6 line-clamp-2 flex-grow"
                       dangerouslySetInnerHTML={{ __html: product.short_description || product.description }}
                     />
+                    <button 
+                      onClick={() => addToCart(product)}
+                      className="w-full py-4 bg-ink text-white rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand transition-colors flex items-center justify-center gap-2 group mb-6"
+                    >
+                      <ShoppingCart size={14} className="group-hover:-translate-y-0.5 transition-transform" />
+                      Add to Cart
+                    </button>
                     <div className="flex items-center justify-between border-t border-ink/5 pt-4">
-                      <span className="text-brand font-serif font-bold italic">Available for Export</span>
-                      <Check size={18} className="text-brand" />
+                      <span className="text-brand text-[11px] font-sans font-bold uppercase tracking-widest italic">Available Primary</span>
+                      <Check size={16} className="text-brand" />
                     </div>
                   </div>
                 </motion.div>
