@@ -11,6 +11,11 @@ import { ScrollToTop, Preloader } from './components/UI';
 import HomePage from './pages/HomePage';
 import { IndianWearPage, ExportFabricsPage, ExportGarmentsPage } from './pages/CategoryPage';
 import { AboutPage, FacilitiesPage, CertificationsPage, ContactPage } from './pages/StaticPages';
+import LoginPage from './pages/Auth/LoginPage';
+import RegisterPage from './pages/Auth/RegisterPage';
+import ProfilePage from './pages/Profile/ProfilePage';
+import CartPage from './pages/Checkout/CartPage';
+import CheckoutPage from './pages/Checkout/CheckoutPage';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,6 +38,15 @@ export default function App() {
             <Route path="/facilities" element={<FacilitiesPage />} />
             <Route path="/certifications" element={<CertificationsPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            
+            {/* Auth & Profile */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            
+            {/* E-commerce */}
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
           </Routes>
         </main>
         <div className="vignette" />

@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Instagram, Linkedin, Mail } from 'lucide-react';
+import { X, Instagram, Linkedin, Mail, ShoppingBag, User } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 function cn(...inputs: ClassValue[]) { return twMerge(clsx(inputs)); }
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { itemCount } = useCart();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const h = () => setIsScrolled(window.scrollY > 50);
@@ -59,7 +63,32 @@ const Navbar = () => {
             ))}
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
+            {/* Cart Icon */}
+            <Link to="/cart" className={cn(
+              "relative p-2.5 rounded-full transition-all border",
+              isScrolled 
+                ? "border-ink/10 text-ink hover:bg-gray-100" 
+                : "border-paper/20 text-paper hover:bg-paper/10"
+            )}>
+              <ShoppingBag size={18} />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-brand text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">
+                  {itemCount}
+                </span>
+              )}
+            </Link>
+
+            {/* Profile Icon */}
+            <Link to={isAuthenticated ? "/profile" : "/login"} className={cn(
+              "p-2.5 rounded-full transition-all border",
+              isScrolled 
+                ? "border-ink/10 text-ink hover:bg-gray-100" 
+                : "border-paper/20 text-paper hover:bg-paper/10"
+            )}>
+              <User size={18} />
+            </Link>
+
             <Link to="/contact"
               className={cn("hidden md:flex items-center gap-2 px-6 py-2.5 rounded-full text-[11px] font-sans font-bold uppercase tracking-wider transition-all border",
                 isScrolled 
