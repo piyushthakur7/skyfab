@@ -3,8 +3,11 @@ import { useNavigate, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
-import { createOrder } from '../../services/woocommerce';
-import { CheckCircle2, Loader2, Lock, ArrowLeft, Package, CreditCard } from 'lucide-react';
+import { createOrder, updateOrderPaymentStatus } from '../../services/woocommerce';
+import { CheckCircle2, Loader2, Lock, ArrowLeft, Package, CreditCard, Smartphone } from 'lucide-react';
+
+const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID || '';
+const MERCHANT_NAME = import.meta.env.VITE_MERCHANT_NAME || 'Skyfab Overseas';
 
 const CheckoutPage: React.FC = () => {
   const { items, cartTotal, clearCart } = useCart();
@@ -14,6 +17,7 @@ const CheckoutPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState<'cod' | 'online'>('online');
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -35,6 +39,46 @@ const CheckoutPage: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleRazorpayPayment = async (orderId: number) => {
+    return new Promise((resolve, reject) => {
+      const options = {
+        key: RAZORPAY_KEY,
+        amount: Math.round(cartTotal * 100), // Amount in paise
+        currency: 'INR',
+        name: MERCHANT_NAME,
+        description: `Order #${orderId}`,
+        image: '/logo.png', // Update with your logo
+        order_id: '', // We could generate a Razorpay Order ID on backend for better security
+        handler: async (response: any) => {
+          try {
+            setLoading(true);
+            await updateOrderPaymentStatus(orderId, response.razorpay_payment_id);
+            resolve(response);
+          } catch (err: any) {
+            reject(new Error('Payment successful but failed to update order status. Please contact support.'));
+          }
+        },
+        prefill: {
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        theme: {
+          color: '#020E21', // Skyfab Brand Color
+        },
+        modal: {
+          ondismiss: () => {
+            setLoading(false);
+            setError('Payment cancelled by user');
+          }
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -42,8 +86,8 @@ const CheckoutPage: React.FC = () => {
 
     try {
       const orderData = {
-        payment_method: 'cod',
-        payment_method_title: 'Cash on Delivery',
+        payment_method: paymentMethod,
+        payment_method_title: paymentMethod === 'cod' ? 'Cash on Delivery' : 'Online Payment (Razorpay)',
         set_paid: false,
         billing: {
           first_name: formData.firstName,
@@ -72,13 +116,19 @@ const CheckoutPage: React.FC = () => {
         customer_id: user?.id || 0,
       };
 
-      await createOrder(orderData, user?.token);
+      const order = await createOrder(orderData, user?.token);
+      
+      if (paymentMethod === 'online') {
+        await handleRazorpayPayment(order.id);
+      }
+
       setSuccess(true);
       clearCart();
     } catch (err: any) {
       setError(err.message || 'Submission failed. Please check your data.');
     } finally {
-      setLoading(false);
+      if (paymentMethod === 'cod') setLoading(false);
+      // For online, handleRazorpayPayment handles loading state
     }
   };
 
@@ -173,17 +223,58 @@ const CheckoutPage: React.FC = () => {
 
                 <div className="pt-6">
                   <h3 className="text-xl font-serif font-bold text-ink mb-6">Payment Method</h3>
-                  <div className="flex items-center gap-4 p-5 border-2 border-brand/20 bg-brand/5 rounded-2xl">
-                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center border border-brand/20 shadow-sm">
-                      <CreditCard size={20} className="text-brand" />
-                    </div>
-                    <div>
-                      <p className="font-bold text-ink text-sm">Cash on Delivery</p>
-                      <p className="text-[11px] text-gray-500 uppercase tracking-wider">Pay when your order arrives</p>
-                    </div>
-                    <div className="ml-auto">
-                      <div className="w-5 h-5 rounded-full border-4 border-brand bg-white" />
-                    </div>
+                  <div className="space-y-3">
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('online')}
+                      className={cn(
+                        "w-full flex items-center gap-4 p-5 border-2 rounded-2xl transition-all",
+                        paymentMethod === 'online' ? "border-brand bg-brand/5" : "border-gray-100 hover:border-gray-200"
+                      )}
+                    >
+                      <div className={cn(
+                        "w-10 h-10 rounded-full flex items-center justify-center border shadow-sm",
+                        paymentMethod === 'online' ? "bg-white border-brand/20 text-brand" : "bg-gray-50 border-gray-200 text-gray-400"
+                      )}>
+                        <Smartphone size={20} />
+                      </div>
+                      <div className="text-left">
+                        <p className={cn("font-bold text-sm", paymentMethod === 'online' ? "text-ink" : "text-gray-500")}>Online Payment</p>
+                        <p className="text-[11px] text-gray-400 uppercase tracking-wider">Fast & Secure via Razorpay</p>
+                      </div>
+                      <div className="ml-auto">
+                        <div className={cn(
+                          "w-5 h-5 rounded-full border-4",
+                          paymentMethod === 'online' ? "border-brand bg-white" : "border-gray-200 bg-white"
+                        )} />
+                      </div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('cod')}
+                      className={cn(
+                        "w-full flex items-center gap-4 p-5 border-2 rounded-2xl transition-all",
+                        paymentMethod === 'cod' ? "border-brand bg-brand/5" : "border-gray-100 hover:border-gray-200"
+                      )}
+                    >
+                      <div className={cn(
+                        "w-10 h-10 rounded-full flex items-center justify-center border shadow-sm",
+                        paymentMethod === 'cod' ? "bg-white border-brand/20 text-brand" : "bg-gray-50 border-gray-200 text-gray-400"
+                      )}>
+                        <CreditCard size={20} />
+                      </div>
+                      <div className="text-left">
+                        <p className={cn("font-bold text-sm", paymentMethod === 'cod' ? "text-ink" : "text-gray-500")}>Cash on Delivery</p>
+                        <p className="text-[11px] text-gray-400 uppercase tracking-wider">Pay when your order arrives</p>
+                      </div>
+                      <div className="ml-auto">
+                        <div className={cn(
+                          "w-5 h-5 rounded-full border-4",
+                          paymentMethod === 'cod' ? "border-brand bg-white" : "border-gray-200 bg-white"
+                        )} />
+                      </div>
+                    </button>
                   </div>
                 </div>
               </form>
@@ -237,7 +328,11 @@ const CheckoutPage: React.FC = () => {
                 disabled={loading}
                 className="w-full py-5 mt-8 bg-ink text-white rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-brand transition-all flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg shadow-ink/10"
               >
-                {loading ? <><Loader2 size={18} className="animate-spin" /> Finalizing...</> : 'Confirm Order Now'}
+                {loading ? (
+                  <><Loader2 size={18} className="animate-spin" /> {paymentMethod === 'online' ? 'Initiating Payment...' : 'Finalizing...'}</>
+                ) : (
+                  paymentMethod === 'online' ? 'Pay & Confirm Order' : 'Confirm Cash Order'
+                )}
               </button>
 
               <div className="mt-6 flex items-center justify-center gap-2 text-gray-400">

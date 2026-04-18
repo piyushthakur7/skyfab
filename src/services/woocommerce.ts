@@ -229,3 +229,33 @@ export async function requestOrderReturn(orderId: number, reason: string) {
     throw new Error(err.message);
   }
 }
+
+export async function updateOrderPaymentStatus(orderId: number, paymentId: string, status: string = 'processing') {
+  try {
+    const queryParams = new URLSearchParams({
+      consumer_key: WC_CONSUMER_KEY,
+      consumer_secret: WC_CONSUMER_SECRET,
+    });
+    const url = `${getBaseUrl()}/wp-json/wc/v3/orders/${orderId}?${queryParams.toString()}`;
+    const payload = {
+      status: status,
+      set_paid: true,
+      transaction_id: paymentId,
+      meta_data: [
+        {
+          key: '_razorpay_payment_id',
+          value: paymentId
+        }
+      ]
+    };
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) throw new Error('Order status update failed');
+    return await response.json();
+  } catch (err: any) {
+    throw new Error(err.message);
+  }
+}
