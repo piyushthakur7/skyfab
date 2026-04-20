@@ -16,6 +16,7 @@ import RegisterPage from './pages/Auth/RegisterPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import CartPage from './pages/Checkout/CartPage';
 import CheckoutPage from './pages/Checkout/CheckoutPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -47,6 +48,9 @@ export default function App() {
             {/* E-commerce */}
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            
+            {/* 404 Catch All */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
         <div className="vignette" />

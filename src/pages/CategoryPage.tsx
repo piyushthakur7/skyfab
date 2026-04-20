@@ -120,5 +120,5 @@ export const IndianWearPage = () => <CategoryPage title="Indian Wear" desc="Exqu
 export const ExportFabricsPage = () => <CategoryPage title="Export Fabric Material" desc="World-class fabrics for international fashion houses and retailers." image="/images/export-fabric.png" categoryId={16}
   items={['Cotton & Organic', 'Pure Silk', 'Viscose & Rayon', 'Polyester', 'Nylon & Technical', 'Jacquard Weaves', 'Embroidered Fabrics', 'Printed Fabrics', 'Linen Blends', 'Knitted Fabrics', 'Lycra & Stretch', 'Curtain Fabrics']} />;
 
-export const ExportGarmentsPage = () => <CategoryPage title="Export Garments" desc="Ready-to-wear excellence for global shoppers and retailers." image="/images/export-garment.png" categoryId={17}
+export const ExportGarmentsPage = () => <CategoryPage title="Export Garments" desc="Ready-to-wear excellence for global shoppers and retailers." image="/images/export-garment.png" categoryId={29}
   items={['Signature Kaftans', 'Hijab & Scarves', 'Western Casual', 'Formal Wear', 'Maxy Gowns', 'Business Attire', 'Active Wear', 'Burakha Collection', 'Kids Garment', 'Loungewear', 'Denim Collection', 'Uniform Programs']} />;
