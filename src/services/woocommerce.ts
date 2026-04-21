@@ -50,26 +50,24 @@ export interface WCOrder {
 
 /**
  * Build the correct API URL based on environment.
- * - Dev:  /wp-json/wc/v3/... (Vite proxy)
- * - Prod: /api/wc?path=...    (Secure Server Proxy)
+ * - Dev:  /wp-json/wc/v3/...
+ * - Prod: /api/wc
  */
-const buildWcUrl = (endpoint: string) => {
+const buildWcUrl = () => {
   if (isDev) {
-    return `/wp-json/wc/v3/${endpoint}`;
+    return `/wp-json/wc/v3`;
   }
-  // Production: Call our secure serverless function with the target path
-  return `/api/wc?path=${endpoint}`;
+  return `/api/wc`;
 };
 
 /**
- * Build a non-WC WordPress REST API URL (e.g., JWT auth).
+ * Build a non-WC WordPress REST API URL.
  */
-const buildWpUrl = (endpoint: string) => {
+const buildWpUrl = () => {
   if (isDev) {
-    return `/wp-json/${endpoint}`;
+    return `/wp-json`;
   }
-  // Note: We'll eventually need a similar proxy for non-WC endpoints if we use JWT auth
-  return `/api/wp?path=${endpoint}`;
+  return `/api/wp`;
 };
 
 /**
@@ -94,10 +92,11 @@ const authParams = () => {
 
 export async function getProducts(params: Record<string, any> = {}) {
   const qp = authParams();
+  if (!isDev) qp.set('path', 'products'); // Add path for proxy
   Object.entries(params).forEach(([k, v]) => qp.set(k, String(v)));
 
   try {
-    const url = `${buildWcUrl('products')}?${qp.toString()}`;
+    const url = `${buildWcUrl()}${isDev ? '/products' : ''}?${qp.toString()}`;
     console.log('[WC] Fetching products:', url.replace(/consumer_secret=[^&]+/, 'consumer_secret=***'));
     const response = await fetch(url);
     if (!response.ok) {
@@ -116,8 +115,9 @@ export async function getProducts(params: Record<string, any> = {}) {
 
 export async function getProduct(id: number | string) {
   const qp = authParams();
+  if (!isDev) qp.set('path', `products/${id}`);
   try {
-    const url = `${buildWcUrl(`products/${id}`)}?${qp.toString()}`;
+    const url = `${buildWcUrl()}${isDev ? `/products/${id}` : ''}?${qp.toString()}`;
     const response = await fetch(url);
     if (!response.ok) throw new Error(`Failed to fetch product ${id}: ${response.status}`);
     return (await response.json()) as WCProduct;
@@ -129,9 +129,10 @@ export async function getProduct(id: number | string) {
 
 export async function getCategories() {
   const qp = authParams();
+  if (!isDev) qp.set('path', 'products/categories');
   qp.set('per_page', '100');
   try {
-    const url = `${buildWcUrl('products/categories')}?${qp.toString()}`;
+    const url = `${buildWcUrl()}${isDev ? '/products/categories' : ''}?${qp.toString()}`;
     const response = await fetch(url);
     if (!response.ok) throw new Error(`Failed to fetch categories: ${response.status}`);
     return await response.json();
@@ -156,7 +157,9 @@ export async function validateConnection() {
 
 export async function loginUser(username: string, password: string) {
   try {
-    const url = buildWpUrl('jwt-auth/v1/token');
+    const qp = new URLSearchParams();
+    if (!isDev) qp.set('path', 'jwt-auth/v1/token');
+    const url = `${buildWpUrl()}${isDev ? '/jwt-auth/v1/token' : ''}${!isDev ? `?${qp.toString()}` : ''}`;
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -177,7 +180,8 @@ export async function loginUser(username: string, password: string) {
 export async function createOrder(orderData: any, token: string = '') {
   try {
     const qp = authParams();
-    const url = `${buildWcUrl('orders')}?${qp.toString()}`;
+    if (!isDev) qp.set('path', 'orders');
+    const url = `${buildWcUrl()}${isDev ? '/orders' : ''}?${qp.toString()}`;
     const headers: any = { 'Content-Type': 'application/json' };
     if (token) headers['Authorization'] = `Bearer ${token}`;
     
@@ -199,8 +203,9 @@ export async function createOrder(orderData: any, token: string = '') {
 export async function getCustomerOrders(customerId: number, token?: string) {
   try {
     const qp = authParams();
+    if (!isDev) qp.set('path', 'orders');
     qp.set('customer', customerId.toString());
-    const url = `${buildWcUrl('orders')}?${qp.toString()}`;
+    const url = `${buildWcUrl()}${isDev ? '/orders' : ''}?${qp.toString()}`;
     const response = await fetch(url);
     if (!response.ok) throw new Error('Fetch orders failed');
     return (await response.json()) as WCOrder[];
@@ -217,7 +222,8 @@ export async function getCustomerOrders(customerId: number, token?: string) {
 export async function createProductReview(productId: number, review: string, rating: number, reviewerName: string, reviewerEmail: string) {
   try {
     const qp = authParams();
-    const url = `${buildWcUrl('products/reviews')}?${qp.toString()}`;
+    if (!isDev) qp.set('path', 'products/reviews');
+    const url = `${buildWcUrl()}${isDev ? '/products/reviews' : ''}?${qp.toString()}`;
     const payload = {
       product_id: productId,
       review: review,
@@ -241,7 +247,8 @@ export async function createProductReview(productId: number, review: string, rat
 export async function requestOrderReturn(orderId: number, reason: string) {
   try {
     const qp = authParams();
-    const url = `${buildWcUrl(`orders/${orderId}/notes`)}?${qp.toString()}`;
+    if (!isDev) qp.set('path', `orders/${orderId}/notes`);
+    const url = `${buildWcUrl()}${isDev ? `/orders/${orderId}/notes` : ''}?${qp.toString()}`;
     const payload = {
       note: `Customer Return Request: ${reason}`,
       customer_note: false
@@ -261,7 +268,8 @@ export async function requestOrderReturn(orderId: number, reason: string) {
 export async function updateOrderPaymentStatus(orderId: number, paymentId: string, status: string = 'processing') {
   try {
     const qp = authParams();
-    const url = `${buildWcUrl(`orders/${orderId}`)}?${qp.toString()}`;
+    if (!isDev) qp.set('path', `orders/${orderId}`);
+    const url = `${buildWcUrl()}${isDev ? `/orders/${orderId}` : ''}?${qp.toString()}`;
     const payload = {
       status: status,
       set_paid: true,
