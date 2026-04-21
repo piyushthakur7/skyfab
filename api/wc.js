@@ -4,48 +4,39 @@
  */
 
 export default async function handler(req, res) {
-  // 1. Get parameters
-  // The frontend sends the target WooCommerce endpoint in the 'path' query parameter
-  const { path: wcPath, ...params } = req.query;
-
-  if (!wcPath) {
-    console.error('PROXY ERROR: Missing path parameter');
-    return res.status(400).json({ error: 'Missing path parameter' });
-  }
-
-  // 2. Get credentials from environment variables
-  const WC_URL = (process.env.WC_URL || process.env.VITE_WC_URL || '').replace(/\/$/, '');
-  const KEY = process.env.WC_CONSUMER_KEY || process.env.VITE_WC_CONSUMER_KEY;
-  const SECRET = process.env.WC_CONSUMER_SECRET || process.env.VITE_WC_CONSUMER_SECRET;
-
-  // Debug check (hidden from client)
-  if (!WC_URL || !KEY || !SECRET) {
-    const missing = [];
-    if (!WC_URL) missing.push('WC_URL');
-    if (!KEY) missing.push('WC_CONSUMER_KEY');
-    if (!SECRET) missing.push('WC_CONSUMER_SECRET');
-    console.error('SERVER ERROR: Missing env vars:', missing.join(', '));
-    return res.status(500).json({ 
-      error: 'Server configuration error', 
-      details: 'API credentials not found in Vercel environment' 
-    });
-  }
-
-  // 3. Determine if this is a WC or WP endpoint
-  // wcPath starting with 'jwt-auth' etc. means it's a WP endpoint, not WC
-  const isWpOnly = req.url.includes('/api/wp');
-  const apiBase = isWpOnly ? '/wp-json' : '/wp-json/wc/v3';
-
-  // 4. Construct the official URL
-  const qp = new URLSearchParams({
-    ...params,
-    consumer_key: KEY,
-    consumer_secret: SECRET
-  });
-
-  const finalUrl = `${WC_URL}${apiBase}/${wcPath}?${qp.toString()}`;
-
   try {
+    // 1. Get parameters from query string
+    const { path: wcPath, ...params } = req.query;
+
+    if (!wcPath) {
+      return res.status(400).json({ error: 'Missing path parameter' });
+    }
+
+    // 2. Get credentials from environment variables
+    const WC_URL = (process.env.WC_URL || process.env.VITE_WC_URL || '').replace(/\/$/, '');
+    
+    // Check if keys are provided in the query (for testing) OR in the environment
+    const KEY = params.consumer_key || process.env.WC_CONSUMER_KEY || process.env.VITE_WC_CONSUMER_KEY;
+    const SECRET = params.consumer_secret || process.env.WC_CONSUMER_SECRET || process.env.VITE_WC_CONSUMER_SECRET;
+
+    if (!WC_URL) {
+      return res.status(500).json({ error: 'Configuration Error', details: 'WC_URL is not defined in Vercel' });
+    }
+    if (!KEY || !SECRET) {
+      return res.status(401).json({ error: 'Authentication Error', details: 'Consumer Key/Secret not found in environment' });
+    }
+
+    // 3. Construct clean destination URL
+    const isWpOnly = req.url.includes('/api/wp');
+    const apiBase = isWpOnly ? '/wp-json' : '/wp-json/wc/v3';
+    
+    const qp = new URLSearchParams(params);
+    qp.set('consumer_key', KEY);
+    qp.set('consumer_secret', SECRET);
+
+    const finalUrl = `${WC_URL}${apiBase}/${wcPath}?${qp.toString()}`;
+
+    // 4. Fetch from WooCommerce
     const response = await fetch(finalUrl, {
       method: req.method,
       headers: {
@@ -58,7 +49,7 @@ export default async function handler(req, res) {
     const data = await response.json();
     return res.status(response.status).json(data);
   } catch (error) {
-    console.error(`PROXY ERROR (${wcPath}):`, error);
-    return res.status(500).json({ error: 'Failed to communicate with WooCommerce' });
+    console.error('PROXY CRASH:', error);
+    return res.status(500).json({ error: 'Proxy Server Error', details: error.message });
   }
 }
