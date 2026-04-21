@@ -2,10 +2,10 @@
  * WooCommerce API service
  * This service handles communication with the WordPress/WooCommerce backend.
  * 
- * CORS Strategy:
- * - Development: Vite dev server proxies /wp-json/* to the WC backend
- * - Production: Vercel rewrites proxy /api/wc/* to the WC backend's /wp-json/wc/v3/*
- * Both approaches avoid CORS issues by making the browser see same-origin requests.
+ * CORS & Security Strategy:
+ * - Development: Vite dev server proxies /wp-json/* to the WC backend using local .env keys.
+ * - Production: All calls go to /api/wc (Vercel Serverless Function) which securely 
+ *   appends the API keys on the server side, keeping them hidden from the browser.
  */
 
 const WC_CONSUMER_KEY = import.meta.env.VITE_WC_CONSUMER_KEY || '';
@@ -50,38 +50,43 @@ export interface WCOrder {
 
 /**
  * Build the correct API URL based on environment.
- * - Dev:  /wp-json/wc/v3/products  (Vite proxy handles it)
- * - Prod: /api/wc/products          (Vercel rewrite handles it)
+ * - Dev:  /wp-json/wc/v3/... (Vite proxy)
+ * - Prod: /api/wc?path=...    (Secure Server Proxy)
  */
 const buildWcUrl = (endpoint: string) => {
   if (isDev) {
-    // Vite proxy: /wp-json/* → WooCommerce backend
     return `/wp-json/wc/v3/${endpoint}`;
   }
-  // Production: Vercel rewrite /api/wc/* → WooCommerce /wp-json/wc/v3/*
-  return `/api/wc/${endpoint}`;
+  // Production: Call our secure serverless function with the target path
+  return `/api/wc?path=${endpoint}`;
 };
 
 /**
  * Build a non-WC WordPress REST API URL (e.g., JWT auth).
- * - Dev:  /wp-json/jwt-auth/v1/token
- * - Prod: /api/wp/jwt-auth/v1/token
  */
 const buildWpUrl = (endpoint: string) => {
   if (isDev) {
     return `/wp-json/${endpoint}`;
   }
-  return `/api/wp/${endpoint}`;
+  // Note: We'll eventually need a similar proxy for non-WC endpoints if we use JWT auth
+  return `/api/wp?path=${endpoint}`;
 };
 
-// ========================
-// Helper: attach auth params
-// ========================
-
-const authParams = () => new URLSearchParams({
-  consumer_key: WC_CONSUMER_KEY,
-  consumer_secret: WC_CONSUMER_SECRET,
-});
+/**
+ * Helper: attach auth params.
+ * In development, we attach them in the browser.
+ * In production, the serverless proxy attaches them securely.
+ */
+const authParams = () => {
+  if (isDev) {
+    return new URLSearchParams({
+      consumer_key: WC_CONSUMER_KEY,
+      consumer_secret: WC_CONSUMER_SECRET,
+    });
+  }
+  // In production, we send no keys from the browser. The proxy adds them.
+  return new URLSearchParams();
+};
 
 // ========================
 // Product Methods
