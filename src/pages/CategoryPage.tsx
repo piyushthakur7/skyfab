@@ -86,7 +86,7 @@ export const CategoryPage = ({ title, desc, items: staticItems, image, categoryI
                   <div className="p-6 flex flex-col flex-grow">
                     <div className="flex justify-between items-start gap-2 mb-2">
                       <h3 className="text-xl font-serif">{product.name}</h3>
-                      <span className="text-lg font-bold text-ink">₹{product.price}</span>
+                      <span className="text-lg font-bold text-ink">{product.price ? `₹${product.price}` : 'Contact for Price'}</span>
                     </div>
                     <div 
                       className="text-ink/60 text-sm font-sans mb-6 line-clamp-2 flex-grow"
@@ -114,7 +114,9 @@ export const CategoryPage = ({ title, desc, items: staticItems, image, categoryI
   );
 };
 
-export const IndianWearPage = () => <CategoryPage title="Indian Wear" desc="Exquisite ethnic wear crafted from India's finest textiles." image="/images/indian-wear.png" categoryId={15}
+// Note: Indian Wear has no dedicated WooCommerce category yet. When products are added
+// under an "Indian Wear" parent category, set categoryId here to enable dynamic loading.
+export const IndianWearPage = () => <CategoryPage title="Indian Wear" desc="Exquisite ethnic wear crafted from India's finest textiles." image="/images/indian-wear.png"
   items={['Sarees', 'Lehengas', 'Kurtas & Kurtis', 'Salwar Kameez', 'Dupattas & Stoles', 'Sherwanis', 'Palazzo Sets', 'Anarkali Suits', 'Bridal Wear', 'Chaniya Choli', 'Dhoti Kurta', 'Nehru Jackets']} />;
 
 export const ExportFabricsPage = () => <CategoryPage title="Export Fabric Material" desc="World-class fabrics for international fashion houses and retailers." image="/images/export-fabric.png" categoryId={16}

@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/wc/:path*",
+      "destination": "https://seagreen-boar-119602.hostingersite.com/wp-json/wc/v3/:path*"
+    },
+    {
+      "source": "/api/wp/:path*",
+      "destination": "https://seagreen-boar-119602.hostingersite.com/wp-json/:path*"
+    },
+    {
+      "source": "/((?!assets|images|favicon|api).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
