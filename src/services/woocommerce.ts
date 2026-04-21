@@ -7,6 +7,10 @@ const WC_URL = import.meta.env.VITE_WC_URL || 'https://your-wordpress-site.com';
 const WC_CONSUMER_KEY = import.meta.env.VITE_WC_CONSUMER_KEY || '';
 const WC_CONSUMER_SECRET = import.meta.env.VITE_WC_CONSUMER_SECRET || '';
 
+// In development, we use a proxy to avoid CORS issues.
+// vite.config.ts is configured to proxy '/wp-json' to the WC_URL.
+const isDev = import.meta.env.DEV;
+
 export interface WCProduct {
   id: number;
   name: string;
@@ -42,7 +46,10 @@ export interface WCOrder {
   }>;
 }
 
-const getBaseUrl = () => WC_URL.replace(/\/$/, '');
+const getBaseUrl = () => {
+  if (isDev) return ''; // Use relative path for proxy to work
+  return WC_URL.replace(/\/$/, '');
+};
 
 // ========================
 // Existing Product Methods

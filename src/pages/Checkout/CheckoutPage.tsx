@@ -5,6 +5,10 @@ import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { createOrder, updateOrderPaymentStatus } from '../../services/woocommerce';
 import { CheckCircle2, Loader2, Lock, ArrowLeft, Package, CreditCard, Smartphone } from 'lucide-react';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+function cn(...inputs: ClassValue[]) { return twMerge(clsx(inputs)); }
 
 const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID || '';
 const MERCHANT_NAME = import.meta.env.VITE_MERCHANT_NAME || 'Skyfab Overseas';
