@@ -1,14 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/api/wc",
-      "destination": "/api/wc.js"
-    },
-    {
-      "source": "/api/wp",
-      "destination": "/api/wc.js"
-    },
-    {
       "source": "/((?!assets|images|favicon|api).*)",
       "destination": "/index.html"
     }
