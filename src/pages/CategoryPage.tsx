@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Check, Loader2, AlertCircle, ShoppingCart } from 'lucide-react';
-import { getProducts, WCProduct } from '../services/woocommerce';
+import { getProducts, getCategories, WCProduct } from '../services/woocommerce';
 import { useCart } from '../context/CartContext';
 
 export const CategoryPage = ({ title, desc, items: staticItems, image, categoryId }: { title: string; desc: string; items: string[]; image: string; categoryId?: number }) => {
@@ -16,7 +16,32 @@ export const CategoryPage = ({ title, desc, items: staticItems, image, categoryI
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const data = await getProducts({ category: categoryId });
+        // 1. Try fetching products from this specific category
+        let data = await getProducts({ category: categoryId, per_page: 50 });
+
+        // 2. If empty, fetch from all child sub-categories
+        if (data.length === 0) {
+          console.log(`[WC] No products in category ${categoryId}, checking sub-categories...`);
+          const allCats = await getCategories();
+          const childIds = allCats
+            .filter((c: any) => c.parent === categoryId)
+            .map((c: any) => c.id);
+          
+          if (childIds.length > 0) {
+            // Fetch from each sub-category and combine
+            const subResults = await Promise.all(
+              childIds.map((id: number) => getProducts({ category: id, per_page: 20 }))
+            );
+            data = subResults.flat();
+          }
+        }
+
+        // 3. If STILL empty, fetch ALL products as fallback
+        if (data.length === 0) {
+          console.log('[WC] No products in sub-categories either, fetching all products...');
+          data = await getProducts({ per_page: 50 });
+        }
+
         setProducts(data);
       } catch (err) {
         console.error(`Failed to load ${title} products:`, err);
