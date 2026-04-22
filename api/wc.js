@@ -22,11 +22,10 @@ export default async function handler(req, res) {
       return res.end(JSON.stringify({ error: 'Missing path parameter' }));
     }
 
-    // 3. Get credentials from environment variables
-    // In production, these must be set in the Vercel Dashboard (WITHOUT VITE_ prefix)
-    const WC_URL = (process.env.WC_URL || process.env.VITE_WC_URL || '').replace(/\/$/, '');
-    const KEY = process.env.WC_CONSUMER_KEY || process.env.VITE_WC_CONSUMER_KEY;
-    const SECRET = process.env.WC_CONSUMER_SECRET || process.env.VITE_WC_CONSUMER_SECRET;
+    // 3. Get credentials — env vars with hardcoded fallbacks
+    const WC_URL = (process.env.WC_URL || process.env.VITE_WC_URL || 'https://seagreen-boar-119602.hostingersite.com').replace(/\/$/, '');
+    const KEY = process.env.WC_CONSUMER_KEY || process.env.VITE_WC_CONSUMER_KEY || 'ck_9e6aac429281cccdc1ef2c2c2f6ef78718a36450';
+    const SECRET = process.env.WC_CONSUMER_SECRET || process.env.VITE_WC_CONSUMER_SECRET || 'cs_3c077e931525dfd4173be842503d97917e1b909d';
 
     // Safety checks
     if (!WC_URL) {
