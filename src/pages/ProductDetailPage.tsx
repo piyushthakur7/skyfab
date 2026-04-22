@@ -165,9 +165,35 @@ const ProductDetailPage = () => {
                 )}
               </div>
               <div 
-                className="text-ink/60 text-lg font-sans leading-relaxed mb-8 prose prose-ink max-w-none"
+                className="text-ink/60 text-lg font-sans leading-relaxed mb-10 prose prose-ink max-w-none"
                 dangerouslySetInnerHTML={{ __html: product.description || product.short_description }}
               />
+
+              {/* Attributes Selection */}
+              <div className="space-y-8 mb-10">
+                {product.attributes?.map(attr => (
+                  <div key={attr.id || attr.name}>
+                    <div className="flex justify-between items-center mb-4">
+                      <h4 className="text-[10px] uppercase tracking-[0.2em] font-bold text-ink">{attr.name}</h4>
+                      {attr.name.toLowerCase() === 'size' && (
+                        <button className="text-[10px] text-brand border-b border-brand/20 pb-0.5 font-bold uppercase tracking-widest hover:text-ink hover:border-ink transition-all">
+                          Size Guide
+                        </button>
+                      )}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {attr.options.map(option => (
+                        <button
+                          key={option}
+                          className="px-6 py-3 border border-ink/10 text-[10px] font-bold uppercase tracking-widest hover:border-ink hover:bg-ink hover:text-white transition-all rounded-xl min-w-[60px] text-center"
+                        >
+                          {option}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="space-y-8 mt-auto">
