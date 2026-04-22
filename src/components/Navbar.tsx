@@ -43,12 +43,12 @@ const Navbar = () => {
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <Link to="/" className="flex flex-col items-start text-decoration-none z-10">
             <span className={cn("text-2xl font-serif font-bold tracking-wide transition-colors",
-              isScrolled ? "text-ink" : "text-paper"
+              isScrolled ? "text-ink" : "text-ink"
             )}>
               SKY<span className="text-brand">FAB</span>
             </span>
             <span className={cn("text-[8px] tracking-[0.4em] font-sans font-semibold uppercase transition-colors",
-              isScrolled ? "text-ink/40" : "text-paper/50"
+              isScrolled ? "text-ink/40" : "text-ink/40"
             )}>Overseas Worldwide</span>
           </Link>
 
@@ -56,7 +56,7 @@ const Navbar = () => {
             {navLinks.slice(0, 6).map(link => (
               <Link key={link.name} to={link.href}
                 className={cn("text-[11px] font-sans font-semibold uppercase tracking-[0.1em] transition-colors hover:text-brand",
-                  isScrolled ? "text-ink/70" : "text-paper/80"
+                  isScrolled ? "text-ink/70" : "text-ink/70"
                 )}>
                 {link.name}
               </Link>
@@ -69,7 +69,7 @@ const Navbar = () => {
               "relative p-2.5 rounded-full transition-all border",
               isScrolled 
                 ? "border-ink/10 text-ink hover:bg-gray-100" 
-                : "border-paper/20 text-paper hover:bg-paper/10"
+                : "border-ink/10 text-ink hover:bg-gray-100"
             )}>
               <ShoppingBag size={18} />
               {itemCount > 0 && (
@@ -84,7 +84,7 @@ const Navbar = () => {
               "p-2.5 rounded-full transition-all border",
               isScrolled 
                 ? "border-ink/10 text-ink hover:bg-gray-100" 
-                : "border-paper/20 text-paper hover:bg-paper/10"
+                : "border-ink/10 text-ink hover:bg-gray-100"
             )}>
               <User size={18} />
             </Link>
@@ -93,13 +93,13 @@ const Navbar = () => {
               className={cn("hidden md:flex items-center gap-2 px-6 py-2.5 rounded-full text-[11px] font-sans font-bold uppercase tracking-wider transition-all border",
                 isScrolled 
                   ? "border-ink/10 text-ink hover:bg-ink hover:text-paper" 
-                  : "border-paper/30 text-paper hover:bg-paper hover:text-ink"
+                  : "border-ink/10 text-ink hover:bg-ink hover:text-paper"
               )}>
               Contact Us
             </Link>
             <button onClick={() => setMenuOpen(true)}
               className={cn("menu-btn !w-12 !h-12 !text-[8px]",
-                isScrolled ? "!bg-ink" : "!bg-paper/10 !backdrop-blur-sm !border !border-paper/20"
+                isScrolled ? "!bg-ink" : "!bg-ink"
               )}>
               MENU
             </button>
