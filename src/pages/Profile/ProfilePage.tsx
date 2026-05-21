@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../../context/AuthContext';
 import { getCustomerOrders, WCOrder } from '../../services/woocommerce';
-import { User, LogOut, Package, Clock, CheckCircle, RotateCcw, Star, ChevronRight } from 'lucide-react';
+import { User, LogOut, Package, Clock, CheckCircle, RotateCcw, Star, ChevronRight, Loader2 } from 'lucide-react';
 import ReviewModal from '../../components/Modals/ReviewModal';
 import ReturnFormModal from '../../components/Modals/ReturnFormModal';
 import { clsx, type ClassValue } from 'clsx';

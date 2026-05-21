@@ -6,6 +6,7 @@ import { AnimatePresence } from 'motion/react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { ScrollToTop, Preloader } from './components/UI';
+import WhatsAppButton from './components/WhatsAppButton';
 
 // Pages
 import HomePage from './pages/HomePage';
@@ -57,6 +58,7 @@ export default function App() {
         </main>
         <div className="vignette" />
         <Footer />
+        <WhatsAppButton />
       </div>
     </Router>
   );

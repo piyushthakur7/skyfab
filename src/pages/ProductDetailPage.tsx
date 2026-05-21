@@ -197,13 +197,26 @@ const ProductDetailPage = () => {
             </div>
 
             <div className="space-y-8 mt-auto">
-              <button 
-                onClick={() => addToCart(product)}
-                className="w-full py-6 bg-ink text-white rounded-2xl font-bold uppercase tracking-[0.3em] text-xs hover:bg-brand transition-all flex items-center justify-center gap-3 group shadow-xl shadow-ink/10"
-              >
-                <ShoppingCart size={18} className="group-hover:-translate-y-1 transition-transform" />
-                Add to Shopping Bag
-              </button>
+              <div className="flex flex-col md:flex-row gap-4">
+                <button 
+                  onClick={() => addToCart(product)}
+                  className="flex-1 py-6 bg-ink text-white rounded-2xl font-bold uppercase tracking-[0.3em] text-xs hover:bg-brand transition-all flex items-center justify-center gap-3 group shadow-xl shadow-ink/10 cursor-pointer"
+                >
+                  <ShoppingCart size={18} className="group-hover:-translate-y-1 transition-transform" />
+                  Add to Shopping Bag
+                </button>
+                <a 
+                  href={`https://wa.me/919909896888?text=Hello%20Skyfab%2C%20I%27m%20interested%20in%20inquiring%20about%20the%20product%20*${encodeURIComponent(product.name)}*%20(Link%3A%20${encodeURIComponent(window.location.origin + '/product/' + product.id)})`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-6 bg-[#25D366] text-white rounded-2xl font-bold uppercase tracking-[0.3em] text-xs hover:bg-[#20ba5a] transition-all flex items-center justify-center gap-3 shadow-xl shadow-green-500/10 cursor-pointer"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.47l-6.256 1.639zM6.604 18.966c1.696.993 3.32 1.488 5.395 1.49 5.33.003 9.68-4.321 9.684-9.629.002-2.571-1.002-4.98-2.83-6.797C16.984 4.226 14.58 3.22 12.015 3.22 6.69 3.22 2.34 7.541 2.336 12.852c-.001 2.106.549 3.659 1.584 5.343l-.991 3.625 3.675-.954zm12.39-4.814c-.313-.156-1.854-.915-2.133-1.017-.279-.101-.482-.152-.684.152-.202.304-.78.982-.957 1.185-.177.203-.355.228-.668.072-1.293-.65-2.158-1.122-2.997-2.56-.222-.38.222-.353.636-1.178.114-.228.057-.428-.028-.58-.085-.152-.684-1.649-.938-2.259-.247-.597-.5-.515-.684-.525-.177-.009-.38-.011-.582-.011-.202 0-.532.076-.811.38-.279.304-1.065 1.039-1.065 2.532s1.09 2.939 1.242 3.141c.152.202 2.144 3.273 5.195 4.59.726.313 1.291.5 1.731.64.73.232 1.393.197 1.917.12.584-.085 1.854-.757 2.115-1.45.261-.692.261-1.287.183-1.411-.078-.124-.279-.2-.591-.356z" />
+                  </svg>
+                  Inquire on WhatsApp
+                </a>
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-ink/5">
                 <div className="flex items-center gap-3">
