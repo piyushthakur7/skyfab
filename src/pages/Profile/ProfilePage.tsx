@@ -3,9 +3,10 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../../context/AuthContext';
 import { getCustomerOrders, WCOrder } from '../../services/woocommerce';
-import { User, LogOut, Package, Clock, CheckCircle, RotateCcw, Star, ChevronRight, Loader2 } from 'lucide-react';
+import { User, LogOut, Package, Clock, CheckCircle, RotateCcw, Star, ChevronRight, Loader2, Truck } from 'lucide-react';
 import ReviewModal from '../../components/Modals/ReviewModal';
 import ReturnFormModal from '../../components/Modals/ReturnFormModal';
+import TrackingModal from '../../components/Modals/TrackingModal';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -22,9 +23,11 @@ const ProfilePage: React.FC = () => {
   // Modals state
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [returnModalOpen, setReturnModalOpen] = useState(false);
+  const [trackingModalOpen, setTrackingModalOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
   const [selectedProductName, setSelectedProductName] = useState('');
   const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
+  const [selectedWaybill, setSelectedWaybill] = useState('');
 
   useEffect(() => {
     if (!isAuthenticated || !user) return;
@@ -226,17 +229,32 @@ const ProfilePage: React.FC = () => {
                         ))}
                       </div>
 
-                      {/* Return Request Button */}
-                      {order.status === 'completed' && activeTab === 'past' && (
-                        <div className="mt-8 pt-6 border-t border-gray-100 flex justify-end">
+                      {/* Return Request / Delhivery Tracking Button */}
+                      <div className="mt-8 pt-6 border-t border-gray-100 flex justify-end gap-3">
+                        {activeTab === 'active' && (
+                          <button 
+                            onClick={() => {
+                              // Use order metadata if exists or generate one for local testing
+                              const metaWaybill = (order as any).meta_data?.find((m: any) => m.key === '_delhivery_awb')?.value || `DLV${1000000000 + order.id}`;
+                              setSelectedWaybill(metaWaybill);
+                              setSelectedOrderId(order.id);
+                              setTrackingModalOpen(true);
+                            }}
+                            className="px-5 py-2.5 bg-brand/10 text-brand hover:bg-brand hover:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 border border-brand/20"
+                          >
+                            <Truck size={15} /> Track Shipment
+                          </button>
+                        )}
+                        
+                        {order.status === 'completed' && activeTab === 'past' && (
                           <button 
                             onClick={() => openReturnModal(order.id)}
                             className="px-5 py-2.5 bg-gray-100 text-ink rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors flex items-center gap-2"
                           >
                             <RotateCcw size={16} /> Request Return
                           </button>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   </motion.div>
                 ))}
@@ -257,6 +275,13 @@ const ProfilePage: React.FC = () => {
       <ReturnFormModal 
         isOpen={returnModalOpen}
         onClose={() => setReturnModalOpen(false)}
+        orderId={selectedOrderId || 0}
+      />
+
+      <TrackingModal
+        isOpen={trackingModalOpen}
+        onClose={() => setTrackingModalOpen(false)}
+        waybill={selectedWaybill}
         orderId={selectedOrderId || 0}
       />
     </div>

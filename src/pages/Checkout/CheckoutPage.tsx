@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCart } from '../../context/CartContext';
@@ -34,25 +34,102 @@ const CheckoutPage: React.FC = () => {
     postcode: '',
   });
 
+  // Delhivery Logistics State
+  const [pincodeChecking, setPincodeChecking] = useState(false);
+  const [pincodeStatus, setPincodeStatus] = useState<'idle' | 'checking' | 'serviceable' | 'unserviceable' | 'error'>('idle');
+  const [codSupported, setCodSupported] = useState(true);
+  const [shippingRate, setShippingRate] = useState(0);
+  const [shippingZone, setShippingZone] = useState('');
+  const [pincodeMessage, setPincodeMessage] = useState('');
+
+  // Auto-verify serviceability and auto-fill city/state when pincode is 6 digits
+  useEffect(() => {
+    const verifyPincode = async () => {
+      const pin = formData.postcode.trim();
+      if (pin.length !== 6 || !/^\d{6}$/.test(pin)) {
+        setPincodeStatus('idle');
+        setShippingRate(0);
+        setShippingZone('');
+        setPincodeMessage('');
+        return;
+      }
+
+      setPincodeChecking(true);
+      setPincodeStatus('checking');
+      setPincodeMessage('');
+
+      try {
+        const { checkPincode, getShippingRate } = await import('../../services/delhivery');
+        const res = await checkPincode(pin);
+
+        if (res.serviceable) {
+          setPincodeStatus('serviceable');
+          setCodSupported(res.cod);
+
+          // Auto-fill city and state retrieved from the Delhivery API
+          setFormData(prev => ({
+            ...prev,
+            city: prev.city || res.city,
+            state: prev.state || res.state,
+          }));
+
+          // Disable COD if not supported for this pincode
+          if (!res.cod && paymentMethod === 'cod') {
+            setPaymentMethod('online');
+          }
+
+          // Calculate shipping weight: 500g default, 250g per additional item
+          const totalQty = items.reduce((sum, item) => sum + item.quantity, 0);
+          const weightGrams = 500 + Math.max(0, totalQty - 1) * 250;
+
+          // Fetch shipping rate
+          const rateRes = await getShippingRate(pin, weightGrams);
+          setShippingRate(rateRes.totalAmount);
+          setShippingZone(rateRes.zone);
+          setPincodeMessage(`✓ Serviceable: ${res.city}, ${res.state}`);
+        } else {
+          setPincodeStatus('unserviceable');
+          setShippingRate(0);
+          setShippingZone('');
+          setPincodeMessage('Delhivery does not deliver to this pincode.');
+        }
+      } catch (err: any) {
+        console.error('[Checkout] Delhivery verify error:', err);
+        setPincodeStatus('error');
+        setPincodeMessage('Unable to verify pincode. Please try again.');
+      } finally {
+        setPincodeChecking(false);
+      }
+    };
+
+    verifyPincode();
+  }, [formData.postcode, items]);
+
   if (items.length === 0 && !success) {
     return <Navigate to="/cart" replace />;
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    // Allow only digits and max 6 characters for postcode
+    if (name === 'postcode') {
+      const sanitized = value.replace(/\D/g, '').slice(0, 6);
+      setFormData(prev => ({ ...prev, [name]: sanitized }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleRazorpayPayment = async (orderId: number) => {
     return new Promise((resolve, reject) => {
       const options = {
         key: RAZORPAY_KEY,
-        amount: Math.round(cartTotal * 100), // Amount in paise
+        amount: Math.round((cartTotal + shippingRate) * 100), // Amount in paise including shipping
         currency: 'INR',
         name: MERCHANT_NAME,
         description: `Order #${orderId}`,
         image: '/logo.png', // Update with your logo
-        order_id: '', // We could generate a Razorpay Order ID on backend for better security
+        order_id: '',
         handler: async (response: any) => {
           try {
             setLoading(true);
@@ -68,7 +145,7 @@ const CheckoutPage: React.FC = () => {
           contact: formData.phone,
         },
         theme: {
-          color: '#020E21', // Skyfab Brand Color
+          color: '#020E21',
         },
         modal: {
           ondismiss: () => {
@@ -78,13 +155,20 @@ const CheckoutPage: React.FC = () => {
         }
       };
 
-      const rzp = new window.Razorpay(options);
+      const rzp = new (window as any).Razorpay(options);
       rzp.open();
     });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check pincode serviceability
+    if (pincodeStatus === 'unserviceable') {
+      setError('Cannot place order. Selected delivery location is unserviceable.');
+      return;
+    }
+
     setLoading(true);
     setError('');
 
@@ -117,6 +201,27 @@ const CheckoutPage: React.FC = () => {
           product_id: item.product.id,
           quantity: item.quantity,
         })),
+        shipping_lines: [
+          {
+            method_id: 'delhivery_shipping',
+            method_title: `Delhivery Standard ${shippingZone ? `(Zone ${shippingZone})` : ''}`,
+            total: shippingRate.toString(),
+          }
+        ],
+        meta_data: [
+          {
+            key: '_delhivery_zone',
+            value: shippingZone,
+          },
+          {
+            key: '_delhivery_cod_serviceable',
+            value: codSupported ? 'yes' : 'no',
+          },
+          {
+            key: '_delhivery_charged_shipping',
+            value: shippingRate.toString(),
+          }
+        ],
         customer_id: user?.id || 0,
       };
 
@@ -132,7 +237,6 @@ const CheckoutPage: React.FC = () => {
       setError(err.message || 'Submission failed. Please check your data.');
     } finally {
       if (paymentMethod === 'cod') setLoading(false);
-      // For online, handleRazorpayPayment handles loading state
     }
   };
 
@@ -209,19 +313,48 @@ const CheckoutPage: React.FC = () => {
                   <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Address</label>
                   <input type="text" name="address" required value={formData.address} onChange={handleInputChange} className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all" placeholder="House no, Street, Area" />
                 </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">City</label>
-                    <input type="text" name="city" required value={formData.city} onChange={handleInputChange} className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all" placeholder="Mumbai" />
+                    <input type="text" name="city" required value={formData.city} onChange={handleInputChange} className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all text-sm font-sans" placeholder="Mumbai" />
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">State</label>
-                    <input type="text" name="state" required value={formData.state} onChange={handleInputChange} className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all" placeholder="Maharashtra" />
+                    <input type="text" name="state" required value={formData.state} onChange={handleInputChange} className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all text-sm font-sans" placeholder="Maharashtra" />
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Postcode</label>
-                    <input type="text" name="postcode" required value={formData.postcode} onChange={handleInputChange} className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all" placeholder="400001" />
+                    <div className="relative">
+                      <input 
+                        type="text" 
+                        name="postcode" 
+                        required 
+                        maxLength={6}
+                        value={formData.postcode} 
+                        onChange={handleInputChange} 
+                        className={cn(
+                          "w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all text-sm font-sans pr-10",
+                          pincodeStatus === 'serviceable' && "border-green-300 focus:border-green-500",
+                          pincodeStatus === 'unserviceable' && "border-red-300 focus:border-red-500"
+                        )} 
+                        placeholder="400001" 
+                      />
+                      {pincodeChecking && (
+                        <div className="absolute right-3.5 top-1/2 -translate-y-1/2">
+                          <Loader2 size={16} className="animate-spin text-brand" />
+                        </div>
+                      )}
+                    </div>
+                    {pincodeMessage && (
+                      <p className={cn(
+                        "text-[10px] font-bold uppercase tracking-wider pl-1 mt-1.5 flex items-center gap-1",
+                        pincodeStatus === 'serviceable' && "text-green-600",
+                        pincodeStatus === 'unserviceable' && "text-red-500",
+                        pincodeStatus === 'error' && "text-amber-600"
+                      )}>
+                        {pincodeMessage}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -244,7 +377,7 @@ const CheckoutPage: React.FC = () => {
                       </div>
                       <div className="text-left">
                         <p className={cn("font-bold text-sm", paymentMethod === 'online' ? "text-ink" : "text-gray-500")}>Online Payment</p>
-                        <p className="text-[11px] text-gray-400 uppercase tracking-wider">Fast & Secure via Razorpay</p>
+                        <p className="text-[11px] text-gray-400 uppercase tracking-wider font-sans mt-0.5">Fast & Secure via Razorpay</p>
                       </div>
                       <div className="ml-auto">
                         <div className={cn(
@@ -256,10 +389,12 @@ const CheckoutPage: React.FC = () => {
 
                     <button
                       type="button"
+                      disabled={!codSupported}
                       onClick={() => setPaymentMethod('cod')}
                       className={cn(
                         "w-full flex items-center gap-4 p-5 border-2 rounded-2xl transition-all",
-                        paymentMethod === 'cod' ? "border-brand bg-brand/5" : "border-gray-100 hover:border-gray-200"
+                        paymentMethod === 'cod' ? "border-brand bg-brand/5" : "border-gray-100 hover:border-gray-200",
+                        !codSupported && "opacity-45 cursor-not-allowed bg-gray-50 border-gray-100 hover:border-gray-100"
                       )}
                     >
                       <div className={cn(
@@ -269,8 +404,17 @@ const CheckoutPage: React.FC = () => {
                         <CreditCard size={20} />
                       </div>
                       <div className="text-left">
-                        <p className={cn("font-bold text-sm", paymentMethod === 'cod' ? "text-ink" : "text-gray-500")}>Cash on Delivery</p>
-                        <p className="text-[11px] text-gray-400 uppercase tracking-wider">Pay when your order arrives</p>
+                        <p className={cn("font-bold text-sm flex items-center gap-2", paymentMethod === 'cod' ? "text-ink" : "text-gray-500")}>
+                          Cash on Delivery
+                          {!codSupported && (
+                            <span className="text-[9px] bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                              Prepaid Only
+                            </span>
+                          )}
+                        </p>
+                        <p className="text-[11px] text-gray-400 uppercase tracking-wider font-sans mt-0.5">
+                          {!codSupported ? "COD is not serviceable for this pincode" : "Pay when your order arrives"}
+                        </p>
                       </div>
                       <div className="ml-auto">
                         <div className={cn(
@@ -307,16 +451,25 @@ const CheckoutPage: React.FC = () => {
 
               <div className="space-y-4 pt-8 border-t border-gray-100">
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Subtotal</span>
+                  <span className="text-gray-500 font-sans text-sm">Subtotal</span>
                   <span className="font-bold text-ink">₹{cartTotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between items-center bg-green-50 px-4 py-3 rounded-xl border border-green-100">
-                  <span className="text-green-700 text-xs font-bold uppercase tracking-wider">Shipping</span>
-                  <span className="text-green-700 font-bold text-sm">FREE</span>
+                <div className={cn(
+                  "flex justify-between items-center px-4 py-3 rounded-xl border transition-all",
+                  shippingRate > 0 
+                    ? "bg-brand/5 border-brand/20 text-brand" 
+                    : "bg-green-50 border-green-100 text-green-700"
+                )}>
+                  <span className="text-[10px] font-bold uppercase tracking-wider">
+                    Shipping {shippingZone ? `(Delhivery Zone ${shippingZone})` : ''}
+                  </span>
+                  <span className="font-bold text-sm uppercase">
+                    {shippingRate > 0 ? `₹${shippingRate.toFixed(2)}` : 'FREE'}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center pt-4">
-                  <span className="text-ink font-bold">Payable Total</span>
-                  <span className="text-3xl font-bold text-ink font-serif">₹{cartTotal.toFixed(2)}</span>
+                  <span className="text-ink font-bold font-serif">Payable Total</span>
+                  <span className="text-3xl font-bold text-ink font-serif">₹{(cartTotal + shippingRate).toFixed(2)}</span>
                 </div>
               </div>
 
@@ -329,11 +482,15 @@ const CheckoutPage: React.FC = () => {
               <button 
                 type="submit" 
                 form="checkout-form"
-                disabled={loading}
-                className="w-full py-5 mt-8 bg-ink text-white rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-brand transition-all flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg shadow-ink/10"
+                disabled={loading || pincodeChecking || pincodeStatus === 'unserviceable'}
+                className="w-full py-5 mt-8 bg-ink text-white rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-brand transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-ink/10"
               >
                 {loading ? (
                   <><Loader2 size={18} className="animate-spin" /> {paymentMethod === 'online' ? 'Initiating Payment...' : 'Finalizing...'}</>
+                ) : pincodeChecking ? (
+                  <><Loader2 size={18} className="animate-spin" /> Verifying Postcode...</>
+                ) : pincodeStatus === 'unserviceable' ? (
+                  'Postcode Unserviceable'
                 ) : (
                   paymentMethod === 'online' ? 'Pay & Confirm Order' : 'Confirm Cash Order'
                 )}
