@@ -9,6 +9,10 @@
       "destination": "/api/wc.js"
     },
     {
+      "source": "/api/delhivery",
+      "destination": "/api/delhivery.js"
+    },
+    {
       "source": "/((?!assets|images|favicon|api).*)",
       "destination": "/index.html"
     }
