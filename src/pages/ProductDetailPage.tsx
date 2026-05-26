@@ -14,12 +14,13 @@ import {
   Truck,
   RotateCcw
 } from 'lucide-react';
-import { getProduct, WCProduct } from '../services/woocommerce';
+import { getProduct, getProductMedia, WCProduct } from '../services/woocommerce';
 import { useCart } from '../context/CartContext';
 
 const ProductDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<WCProduct | null>(null);
+  const [productVideos, setProductVideos] = useState<Array<{id: number, src: string}>>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -31,9 +32,22 @@ const ProductDetailPage = () => {
     const fetchProduct = async () => {
       setLoading(true);
       try {
-        const data = await getProduct(id);
+        const [data, mediaData] = await Promise.all([
+          getProduct(id),
+          getProductMedia(id)
+        ]);
+        
         if (data) {
           setProduct(data);
+          if (mediaData && mediaData.length > 0) {
+            const videos = mediaData
+              .filter((m: any) => m.mime_type?.startsWith('video/'))
+              .map((m: any) => ({
+                id: m.id,
+                src: m.source_url
+              }));
+            setProductVideos(videos);
+          }
         } else {
           setError("Product not found.");
         }
@@ -69,12 +83,17 @@ const ProductDetailPage = () => {
     );
   }
 
+  const allMedia = [
+    ...(product.images.map(img => ({ type: 'image', id: img.id, src: img.src, name: img.name })) || []),
+    ...productVideos.map(vid => ({ type: 'video', id: vid.id, src: vid.src, name: 'Video' }))
+  ];
+
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
+    setCurrentImageIndex((prev) => (prev + 1) % allMedia.length);
   };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
+    setCurrentImageIndex((prev) => (prev - 1 + allMedia.length) % allMedia.length);
   };
 
   return (
@@ -96,29 +115,43 @@ const ProductDetailPage = () => {
           <div className="space-y-6">
             <div className="relative aspect-[3/4] bg-white rounded-3xl overflow-hidden border border-ink/5">
               <AnimatePresence mode="wait">
-                <motion.img
-                  key={currentImageIndex}
-                  src={product.images[currentImageIndex]?.src}
-                  alt={product.name}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                  className="w-full h-full object-cover"
-                />
+                {allMedia[currentImageIndex]?.type === 'video' ? (
+                  <motion.video
+                    key={currentImageIndex}
+                    src={allMedia[currentImageIndex].src}
+                    controls
+                    autoPlay
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="w-full h-full object-cover bg-black"
+                  />
+                ) : (
+                  <motion.img
+                    key={currentImageIndex}
+                    src={allMedia[currentImageIndex]?.src}
+                    alt={allMedia[currentImageIndex]?.name}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </AnimatePresence>
 
-              {product.images.length > 1 && (
+              {allMedia.length > 1 && (
                 <>
                   <button 
                     onClick={prevImage}
-                    className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-ink hover:bg-white transition-all shadow-sm"
+                    className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-ink hover:bg-white transition-all shadow-sm z-10"
                   >
                     <ChevronLeft size={20} />
                   </button>
                   <button 
                     onClick={nextImage}
-                    className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-ink hover:bg-white transition-all shadow-sm"
+                    className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-ink hover:bg-white transition-all shadow-sm z-10"
                   >
                     <ChevronRight size={20} />
                   </button>
@@ -127,17 +160,28 @@ const ProductDetailPage = () => {
             </div>
 
             {/* Thumbnails */}
-            {product.images.length > 1 && (
+            {allMedia.length > 1 && (
               <div className="grid grid-cols-4 gap-4">
-                {product.images.map((img, i) => (
+                {allMedia.map((media, i) => (
                   <button
-                    key={img.id}
+                    key={media.id}
                     onClick={() => setCurrentImageIndex(i)}
-                    className={`aspect-square rounded-2xl overflow-hidden border-2 transition-all ${
+                    className={`aspect-square rounded-2xl overflow-hidden border-2 transition-all relative ${
                       currentImageIndex === i ? 'border-brand' : 'border-transparent opacity-60 hover:opacity-100'
                     }`}
                   >
-                    <img src={img.src} alt={img.name} className="w-full h-full object-cover" />
+                    {media.type === 'video' ? (
+                      <>
+                        <video src={media.src} className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                           <div className="w-8 h-8 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center">
+                             <div className="w-0 h-0 border-t-4 border-t-transparent border-l-6 border-l-white border-b-4 border-b-transparent ml-1"></div>
+                           </div>
+                        </div>
+                      </>
+                    ) : (
+                      <img src={media.src} alt={media.name} className="w-full h-full object-cover" />
+                    )}
                   </button>
                 ))}
               </div>

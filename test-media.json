@@ -1,0 +1,936 @@
+[
+  {
+    "id": 68,
+    "date": "2026-05-14T09:51:05",
+    "date_gmt": "2026-05-14T09:51:05",
+    "guid": {
+      "rendered": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Video-2026-05-14-at-15.15.32-1.mp4"
+    },
+    "modified": "2026-05-14T09:51:05",
+    "modified_gmt": "2026-05-14T09:51:05",
+    "slug": "whatsapp-video-2026-05-14-at-15-15-32-2",
+    "status": "inherit",
+    "type": "attachment",
+    "link": "https://seagreen-boar-119602.hostingersite.com/?attachment_id=68",
+    "title": {
+      "rendered": "WhatsApp Video 2026-05-14 at 15.15.32"
+    },
+    "author": 1,
+    "featured_media": 0,
+    "comment_status": "open",
+    "ping_status": "closed",
+    "template": "",
+    "meta": [],
+    "class_list": [
+      "post-68",
+      "attachment",
+      "type-attachment",
+      "status-inherit",
+      "hentry"
+    ],
+    "description": {
+      "rendered": "<div style=\"width: 464px;\" class=\"wp-video\"><video class=\"wp-video-shortcode\" id=\"video-68-1\" width=\"464\" height=\"832\" preload=\"metadata\" controls=\"controls\"><source type=\"video/mp4\" src=\"https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Video-2026-05-14-at-15.15.32-1.mp4?_=1\" /><a href=\"https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Video-2026-05-14-at-15.15.32-1.mp4\">https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Video-2026-05-14-at-15.15.32-1.mp4</a></video></div>\n"
+    },
+    "caption": {
+      "rendered": "<p>https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Video-2026-05-14-at-15.15.32-1.mp4</p>\n"
+    },
+    "alt_text": "",
+    "media_type": "file",
+    "mime_type": "video/mp4",
+    "media_details": {
+      "filesize": 1791562,
+      "mime_type": "video/mp4",
+      "length": 8,
+      "length_formatted": "0:08",
+      "width": 464,
+      "height": 832,
+      "fileformat": "mp4",
+      "dataformat": "quicktime",
+      "audio": {
+        "dataformat": "mp4",
+        "codec": "ISO/IEC 14496-3 AAC",
+        "sample_rate": 44100,
+        "channels": 2,
+        "bits_per_sample": 16,
+        "lossless": false,
+        "channelmode": "stereo"
+      },
+      "created_timestamp": -2082844800,
+      "sizes": {}
+    },
+    "post": 57,
+    "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Video-2026-05-14-at-15.15.32-1.mp4",
+    "_links": {
+      "self": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/media/68",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/media"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/types/attachment"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/comments?post=68"
+        }
+      ],
+      "wp:attached-to": [
+        {
+          "embeddable": true,
+          "post_type": "product",
+          "id": 57,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/product/57"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 67,
+    "date": "2026-05-14T09:50:39",
+    "date_gmt": "2026-05-14T09:50:39",
+    "guid": {
+      "rendered": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Video-2026-05-14-at-15.15.32.mp4"
+    },
+    "modified": "2026-05-14T09:50:39",
+    "modified_gmt": "2026-05-14T09:50:39",
+    "slug": "whatsapp-video-2026-05-14-at-15-15-32",
+    "status": "inherit",
+    "type": "attachment",
+    "link": "https://seagreen-boar-119602.hostingersite.com/?attachment_id=67",
+    "title": {
+      "rendered": "WhatsApp Video 2026-05-14 at 15.15.32"
+    },
+    "author": 1,
+    "featured_media": 0,
+    "comment_status": "open",
+    "ping_status": "closed",
+    "template": "",
+    "meta": [],
+    "class_list": [
+      "post-67",
+      "attachment",
+      "type-attachment",
+      "status-inherit",
+      "hentry"
+    ],
+    "description": {
+      "rendered": "<div style=\"width: 464px;\" class=\"wp-video\"><video class=\"wp-video-shortcode\" id=\"video-67-3\" width=\"464\" height=\"832\" preload=\"metadata\" controls=\"controls\"><source type=\"video/mp4\" src=\"https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Video-2026-05-14-at-15.15.32.mp4?_=3\" /><a href=\"https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Video-2026-05-14-at-15.15.32.mp4\">https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Video-2026-05-14-at-15.15.32.mp4</a></video></div>\n"
+    },
+    "caption": {
+      "rendered": "<p>https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Video-2026-05-14-at-15.15.32.mp4</p>\n"
+    },
+    "alt_text": "",
+    "media_type": "file",
+    "mime_type": "video/mp4",
+    "media_details": {
+      "filesize": 1791562,
+      "mime_type": "video/mp4",
+      "length": 8,
+      "length_formatted": "0:08",
+      "width": 464,
+      "height": 832,
+      "fileformat": "mp4",
+      "dataformat": "quicktime",
+      "audio": {
+        "dataformat": "mp4",
+        "codec": "ISO/IEC 14496-3 AAC",
+        "sample_rate": 44100,
+        "channels": 2,
+        "bits_per_sample": 16,
+        "lossless": false,
+        "channelmode": "stereo"
+      },
+      "created_timestamp": -2082844800,
+      "sizes": {}
+    },
+    "post": 57,
+    "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Video-2026-05-14-at-15.15.32.mp4",
+    "_links": {
+      "self": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/media/67",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/media"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/types/attachment"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/comments?post=67"
+        }
+      ],
+      "wp:attached-to": [
+        {
+          "embeddable": true,
+          "post_type": "product",
+          "id": 57,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/product/57"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 66,
+    "date": "2026-05-14T09:50:36",
+    "date_gmt": "2026-05-14T09:50:36",
+    "guid": {
+      "rendered": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27.jpeg"
+    },
+    "modified": "2026-05-14T09:50:36",
+    "modified_gmt": "2026-05-14T09:50:36",
+    "slug": "whatsapp-image-2026-05-14-at-15-15-27",
+    "status": "inherit",
+    "type": "attachment",
+    "link": "https://seagreen-boar-119602.hostingersite.com/?attachment_id=66",
+    "title": {
+      "rendered": "WhatsApp Image 2026-05-14 at 15.15.27"
+    },
+    "author": 1,
+    "featured_media": 0,
+    "comment_status": "open",
+    "ping_status": "closed",
+    "template": "",
+    "meta": [],
+    "class_list": [
+      "post-66",
+      "attachment",
+      "type-attachment",
+      "status-inherit",
+      "hentry"
+    ],
+    "description": {
+      "rendered": "<p class=\"attachment\"><a href='https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27.jpeg'><img loading=\"lazy\" decoding=\"async\" width=\"169\" height=\"300\" src=\"https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-169x300.jpeg\" class=\"attachment-medium size-medium\" alt=\"\" srcset=\"https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-169x300.jpeg 169w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-576x1024.jpeg 576w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-768x1365.jpeg 768w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-864x1536.jpeg 864w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-600x1067.jpeg 600w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27.jpeg 900w\" sizes=\"auto, (max-width: 169px) 100vw, 169px\" /></a></p>\n"
+    },
+    "caption": {
+      "rendered": ""
+    },
+    "alt_text": "",
+    "media_type": "image",
+    "mime_type": "image/jpeg",
+    "media_details": {
+      "width": 900,
+      "height": 1600,
+      "file": "2026/04/WhatsApp-Image-2026-05-14-at-15.15.27.jpeg",
+      "filesize": 236472,
+      "sizes": {
+        "medium": {
+          "file": "WhatsApp-Image-2026-05-14-at-15.15.27-169x300.jpeg",
+          "width": 169,
+          "height": 300,
+          "filesize": 16503,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-169x300.jpeg"
+        },
+        "large": {
+          "file": "WhatsApp-Image-2026-05-14-at-15.15.27-576x1024.jpeg",
+          "width": 576,
+          "height": 1024,
+          "filesize": 114769,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-576x1024.jpeg"
+        },
+        "thumbnail": {
+          "file": "WhatsApp-Image-2026-05-14-at-15.15.27-150x150.jpeg",
+          "width": 150,
+          "height": 150,
+          "filesize": 7978,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-150x150.jpeg"
+        },
+        "medium_large": {
+          "file": "WhatsApp-Image-2026-05-14-at-15.15.27-768x1365.jpeg",
+          "width": 768,
+          "height": 1365,
+          "filesize": 184833,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-768x1365.jpeg"
+        },
+        "1536x1536": {
+          "file": "WhatsApp-Image-2026-05-14-at-15.15.27-864x1536.jpeg",
+          "width": 864,
+          "height": 1536,
+          "filesize": 223340,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-864x1536.jpeg"
+        },
+        "woocommerce_thumbnail": {
+          "file": "WhatsApp-Image-2026-05-14-at-15.15.27-300x300.jpeg",
+          "width": 300,
+          "height": 300,
+          "filesize": 23321,
+          "uncropped": false,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-300x300.jpeg"
+        },
+        "woocommerce_single": {
+          "file": "WhatsApp-Image-2026-05-14-at-15.15.27-600x1067.jpeg",
+          "width": 600,
+          "height": 1067,
+          "filesize": 123647,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-600x1067.jpeg"
+        },
+        "woocommerce_gallery_thumbnail": {
+          "file": "WhatsApp-Image-2026-05-14-at-15.15.27-100x100.jpeg",
+          "width": 100,
+          "height": 100,
+          "filesize": 4327,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-100x100.jpeg"
+        },
+        "full": {
+          "file": "WhatsApp-Image-2026-05-14-at-15.15.27.jpeg",
+          "width": 900,
+          "height": 1600,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27.jpeg"
+        }
+      },
+      "image_meta": {
+        "aperture": "0",
+        "credit": "",
+        "camera": "",
+        "caption": "",
+        "created_timestamp": "0",
+        "copyright": "",
+        "focal_length": "0",
+        "iso": "0",
+        "shutter_speed": "0",
+        "title": "",
+        "orientation": "0",
+        "keywords": []
+      }
+    },
+    "post": 57,
+    "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27.jpeg",
+    "_links": {
+      "self": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/media/66",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/media"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/types/attachment"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/comments?post=66"
+        }
+      ],
+      "wp:attached-to": [
+        {
+          "embeddable": true,
+          "post_type": "product",
+          "id": 57,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/product/57"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 60,
+    "date": "2026-04-20T11:18:00",
+    "date_gmt": "2026-04-20T11:18:00",
+    "guid": {
+      "rendered": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2.jpeg"
+    },
+    "modified": "2026-04-20T11:18:00",
+    "modified_gmt": "2026-04-20T11:18:00",
+    "slug": "new-western-fashion-2",
+    "status": "inherit",
+    "type": "attachment",
+    "link": "https://seagreen-boar-119602.hostingersite.com/?attachment_id=60",
+    "title": {
+      "rendered": "new western fashion 2"
+    },
+    "author": 1,
+    "featured_media": 0,
+    "comment_status": "open",
+    "ping_status": "closed",
+    "template": "",
+    "meta": [],
+    "class_list": [
+      "post-60",
+      "attachment",
+      "type-attachment",
+      "status-inherit",
+      "hentry"
+    ],
+    "description": {
+      "rendered": "<p class=\"attachment\"><a href='https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2.jpeg'><img loading=\"lazy\" decoding=\"async\" width=\"200\" height=\"300\" src=\"https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-200x300.jpeg\" class=\"attachment-medium size-medium\" alt=\"\" srcset=\"https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-200x300.jpeg 200w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-683x1024.jpeg 683w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-768x1152.jpeg 768w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-600x900.jpeg 600w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2.jpeg 1024w\" sizes=\"auto, (max-width: 200px) 100vw, 200px\" /></a></p>\n"
+    },
+    "caption": {
+      "rendered": ""
+    },
+    "alt_text": "",
+    "media_type": "image",
+    "mime_type": "image/jpeg",
+    "media_details": {
+      "width": 1024,
+      "height": 1536,
+      "file": "2026/04/new-western-fashion-2.jpeg",
+      "filesize": 230732,
+      "sizes": {
+        "medium": {
+          "file": "new-western-fashion-2-200x300.jpeg",
+          "width": 200,
+          "height": 300,
+          "filesize": 17987,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-200x300.jpeg"
+        },
+        "large": {
+          "file": "new-western-fashion-2-683x1024.jpeg",
+          "width": 683,
+          "height": 1024,
+          "filesize": 128778,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-683x1024.jpeg"
+        },
+        "thumbnail": {
+          "file": "new-western-fashion-2-150x150.jpeg",
+          "width": 150,
+          "height": 150,
+          "filesize": 7884,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-150x150.jpeg"
+        },
+        "medium_large": {
+          "file": "new-western-fashion-2-768x1152.jpeg",
+          "width": 768,
+          "height": 1152,
+          "filesize": 154081,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-768x1152.jpeg"
+        },
+        "woocommerce_thumbnail": {
+          "file": "new-western-fashion-2-300x300.jpeg",
+          "width": 300,
+          "height": 300,
+          "filesize": 24445,
+          "uncropped": false,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-300x300.jpeg"
+        },
+        "woocommerce_single": {
+          "file": "new-western-fashion-2-600x900.jpeg",
+          "width": 600,
+          "height": 900,
+          "filesize": 105993,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-600x900.jpeg"
+        },
+        "woocommerce_gallery_thumbnail": {
+          "file": "new-western-fashion-2-100x100.jpeg",
+          "width": 100,
+          "height": 100,
+          "filesize": 4151,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-100x100.jpeg"
+        },
+        "full": {
+          "file": "new-western-fashion-2.jpeg",
+          "width": 1024,
+          "height": 1536,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2.jpeg"
+        }
+      },
+      "image_meta": {
+        "aperture": "0",
+        "credit": "",
+        "camera": "",
+        "caption": "",
+        "created_timestamp": "0",
+        "copyright": "",
+        "focal_length": "0",
+        "iso": "0",
+        "shutter_speed": "0",
+        "title": "",
+        "orientation": "0",
+        "keywords": []
+      }
+    },
+    "post": 57,
+    "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2.jpeg",
+    "_links": {
+      "self": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/media/60",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/media"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/types/attachment"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/comments?post=60"
+        }
+      ],
+      "wp:attached-to": [
+        {
+          "embeddable": true,
+          "post_type": "product",
+          "id": 57,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/product/57"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 59,
+    "date": "2026-04-20T11:17:58",
+    "date_gmt": "2026-04-20T11:17:58",
+    "guid": {
+      "rendered": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3.jpeg"
+    },
+    "modified": "2026-04-20T11:17:58",
+    "modified_gmt": "2026-04-20T11:17:58",
+    "slug": "new-western-fashion-3",
+    "status": "inherit",
+    "type": "attachment",
+    "link": "https://seagreen-boar-119602.hostingersite.com/?attachment_id=59",
+    "title": {
+      "rendered": "new western fashion 3"
+    },
+    "author": 1,
+    "featured_media": 0,
+    "comment_status": "open",
+    "ping_status": "closed",
+    "template": "",
+    "meta": [],
+    "class_list": [
+      "post-59",
+      "attachment",
+      "type-attachment",
+      "status-inherit",
+      "hentry"
+    ],
+    "description": {
+      "rendered": "<p class=\"attachment\"><a href='https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3.jpeg'><img loading=\"lazy\" decoding=\"async\" width=\"200\" height=\"300\" src=\"https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-200x300.jpeg\" class=\"attachment-medium size-medium\" alt=\"\" srcset=\"https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-200x300.jpeg 200w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-683x1024.jpeg 683w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-768x1152.jpeg 768w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-600x900.jpeg 600w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3.jpeg 1024w\" sizes=\"auto, (max-width: 200px) 100vw, 200px\" /></a></p>\n"
+    },
+    "caption": {
+      "rendered": ""
+    },
+    "alt_text": "",
+    "media_type": "image",
+    "mime_type": "image/jpeg",
+    "media_details": {
+      "width": 1024,
+      "height": 1536,
+      "file": "2026/04/new-western-fashion-3.jpeg",
+      "filesize": 259193,
+      "sizes": {
+        "medium": {
+          "file": "new-western-fashion-3-200x300.jpeg",
+          "width": 200,
+          "height": 300,
+          "filesize": 17667,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-200x300.jpeg"
+        },
+        "large": {
+          "file": "new-western-fashion-3-683x1024.jpeg",
+          "width": 683,
+          "height": 1024,
+          "filesize": 139271,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-683x1024.jpeg"
+        },
+        "thumbnail": {
+          "file": "new-western-fashion-3-150x150.jpeg",
+          "width": 150,
+          "height": 150,
+          "filesize": 7521,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-150x150.jpeg"
+        },
+        "medium_large": {
+          "file": "new-western-fashion-3-768x1152.jpeg",
+          "width": 768,
+          "height": 1152,
+          "filesize": 168975,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-768x1152.jpeg"
+        },
+        "woocommerce_thumbnail": {
+          "file": "new-western-fashion-3-300x300.jpeg",
+          "width": 300,
+          "height": 300,
+          "filesize": 24211,
+          "uncropped": false,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-300x300.jpeg"
+        },
+        "woocommerce_single": {
+          "file": "new-western-fashion-3-600x900.jpeg",
+          "width": 600,
+          "height": 900,
+          "filesize": 112610,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-600x900.jpeg"
+        },
+        "woocommerce_gallery_thumbnail": {
+          "file": "new-western-fashion-3-100x100.jpeg",
+          "width": 100,
+          "height": 100,
+          "filesize": 3922,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-100x100.jpeg"
+        },
+        "full": {
+          "file": "new-western-fashion-3.jpeg",
+          "width": 1024,
+          "height": 1536,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3.jpeg"
+        }
+      },
+      "image_meta": {
+        "aperture": "0",
+        "credit": "",
+        "camera": "",
+        "caption": "",
+        "created_timestamp": "0",
+        "copyright": "",
+        "focal_length": "0",
+        "iso": "0",
+        "shutter_speed": "0",
+        "title": "",
+        "orientation": "0",
+        "keywords": []
+      }
+    },
+    "post": 57,
+    "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3.jpeg",
+    "_links": {
+      "self": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/media/59",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/media"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/types/attachment"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/comments?post=59"
+        }
+      ],
+      "wp:attached-to": [
+        {
+          "embeddable": true,
+          "post_type": "product",
+          "id": 57,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/product/57"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 58,
+    "date": "2026-04-20T11:17:56",
+    "date_gmt": "2026-04-20T11:17:56",
+    "guid": {
+      "rendered": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion.jpeg"
+    },
+    "modified": "2026-04-20T11:17:56",
+    "modified_gmt": "2026-04-20T11:17:56",
+    "slug": "new-western-fashion",
+    "status": "inherit",
+    "type": "attachment",
+    "link": "https://seagreen-boar-119602.hostingersite.com/?attachment_id=58",
+    "title": {
+      "rendered": "new western fashion"
+    },
+    "author": 1,
+    "featured_media": 0,
+    "comment_status": "open",
+    "ping_status": "closed",
+    "template": "",
+    "meta": [],
+    "class_list": [
+      "post-58",
+      "attachment",
+      "type-attachment",
+      "status-inherit",
+      "hentry"
+    ],
+    "description": {
+      "rendered": "<p class=\"attachment\"><a href='https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion.jpeg'><img loading=\"lazy\" decoding=\"async\" width=\"200\" height=\"300\" src=\"https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-200x300.jpeg\" class=\"attachment-medium size-medium\" alt=\"\" srcset=\"https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-200x300.jpeg 200w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-683x1024.jpeg 683w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-768x1152.jpeg 768w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-600x900.jpeg 600w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion.jpeg 1024w\" sizes=\"auto, (max-width: 200px) 100vw, 200px\" /></a></p>\n"
+    },
+    "caption": {
+      "rendered": ""
+    },
+    "alt_text": "",
+    "media_type": "image",
+    "mime_type": "image/jpeg",
+    "media_details": {
+      "width": 1024,
+      "height": 1536,
+      "file": "2026/04/new-western-fashion.jpeg",
+      "filesize": 260889,
+      "sizes": {
+        "medium": {
+          "file": "new-western-fashion-200x300.jpeg",
+          "width": 200,
+          "height": 300,
+          "filesize": 17904,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-200x300.jpeg"
+        },
+        "large": {
+          "file": "new-western-fashion-683x1024.jpeg",
+          "width": 683,
+          "height": 1024,
+          "filesize": 140053,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-683x1024.jpeg"
+        },
+        "thumbnail": {
+          "file": "new-western-fashion-150x150.jpeg",
+          "width": 150,
+          "height": 150,
+          "filesize": 7540,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-150x150.jpeg"
+        },
+        "medium_large": {
+          "file": "new-western-fashion-768x1152.jpeg",
+          "width": 768,
+          "height": 1152,
+          "filesize": 170073,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-768x1152.jpeg"
+        },
+        "woocommerce_thumbnail": {
+          "file": "new-western-fashion-300x300.jpeg",
+          "width": 300,
+          "height": 300,
+          "filesize": 24070,
+          "uncropped": false,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-300x300.jpeg"
+        },
+        "woocommerce_single": {
+          "file": "new-western-fashion-600x900.jpeg",
+          "width": 600,
+          "height": 900,
+          "filesize": 114060,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-600x900.jpeg"
+        },
+        "woocommerce_gallery_thumbnail": {
+          "file": "new-western-fashion-100x100.jpeg",
+          "width": 100,
+          "height": 100,
+          "filesize": 3937,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-100x100.jpeg"
+        },
+        "full": {
+          "file": "new-western-fashion.jpeg",
+          "width": 1024,
+          "height": 1536,
+          "mime_type": "image/jpeg",
+          "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion.jpeg"
+        }
+      },
+      "image_meta": {
+        "aperture": "0",
+        "credit": "",
+        "camera": "",
+        "caption": "",
+        "created_timestamp": "0",
+        "copyright": "",
+        "focal_length": "0",
+        "iso": "0",
+        "shutter_speed": "0",
+        "title": "",
+        "orientation": "0",
+        "keywords": []
+      }
+    },
+    "post": 57,
+    "source_url": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion.jpeg",
+    "_links": {
+      "self": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/media/58",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/media"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/types/attachment"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/comments?post=58"
+        }
+      ],
+      "wp:attached-to": [
+        {
+          "embeddable": true,
+          "post_type": "product",
+          "id": 57,
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wp/v2/product/57"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  }
+]

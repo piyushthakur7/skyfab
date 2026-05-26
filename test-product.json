@@ -1,0 +1,252 @@
+[
+  {
+    "id": 57,
+    "name": "New Western Fashion",
+    "slug": "new-western-fashion",
+    "permalink": "https://seagreen-boar-119602.hostingersite.com/product/new-western-fashion/",
+    "date_created": "2026-04-20T11:34:56",
+    "date_created_gmt": "2026-04-20T11:34:56",
+    "date_modified": "2026-05-21T08:38:52",
+    "date_modified_gmt": "2026-05-21T08:38:52",
+    "type": "simple",
+    "status": "publish",
+    "featured": false,
+    "catalog_visibility": "visible",
+    "description": "<p data-start=\"405\" data-end=\"679\">Our New Western Fashion collection is built around what’s actually moving in the market right now, not what was popular three seasons ago. It brings together contemporary silhouettes, clean cuts, and statement styles designed for modern women who want both comfort and edge.</p>\n<p data-start=\"681\" data-end=\"992\">The collection includes dresses, crop tops, oversized shirts, co-ord sets, trousers, skirts, and jumpsuits, all developed with a strong focus on fit and wearability. Fabrics such as cotton blends, satin, ribbed knits, denim, and lightweight synthetics are selected to balance structure, comfort, and durability.</p>\n<p data-start=\"994\" data-end=\"1233\">Design elements follow current global trends including minimal aesthetics, street-style influence, relaxed fits, and bold detailing. This makes the range adaptable across different markets, from fast fashion retail to boutique collections.</p>\n<p data-start=\"1235\" data-end=\"1502\">Production is handled with consistent quality control, ensuring uniformity across bulk orders. Customization options are available for fabric selection, color palettes, sizing, and private labeling, allowing brands to shape the collection according to their identity.</p>\n<p data-start=\"1504\" data-end=\"1680\">This collection is ideal for wholesalers, retailers, and fashion labels looking to stay aligned with current trends while maintaining reliable sourcing and scalable production.</p>\n",
+    "short_description": "<p>A fresh new western fashion collection for women, combining trend-forward designs, modern silhouettes, and everyday comfort for global style demands.</p>\n",
+    "sku": "",
+    "price": "",
+    "regular_price": "",
+    "sale_price": "",
+    "date_on_sale_from": null,
+    "date_on_sale_from_gmt": null,
+    "date_on_sale_to": null,
+    "date_on_sale_to_gmt": null,
+    "on_sale": false,
+    "purchasable": false,
+    "total_sales": 0,
+    "virtual": false,
+    "downloadable": false,
+    "downloads": [],
+    "download_limit": -1,
+    "download_expiry": -1,
+    "external_url": "",
+    "button_text": "",
+    "tax_status": "taxable",
+    "tax_class": "",
+    "manage_stock": false,
+    "stock_quantity": null,
+    "backorders": "no",
+    "backorders_allowed": false,
+    "backordered": false,
+    "low_stock_amount": null,
+    "sold_individually": false,
+    "weight": "",
+    "dimensions": {
+      "length": "",
+      "width": "",
+      "height": ""
+    },
+    "shipping_required": true,
+    "shipping_taxable": true,
+    "shipping_class": "",
+    "shipping_class_id": 0,
+    "reviews_allowed": true,
+    "average_rating": "0.00",
+    "rating_count": 0,
+    "upsell_ids": [],
+    "cross_sell_ids": [],
+    "parent_id": 0,
+    "purchase_note": "",
+    "categories": [
+      {
+        "id": 29,
+        "name": "Export Garments",
+        "slug": "export-garments"
+      },
+      {
+        "id": 88,
+        "name": "Western Wear",
+        "slug": "west-wear"
+      }
+    ],
+    "brands": [],
+    "tags": [
+      {
+        "id": 70,
+        "name": "apparel manufacturer",
+        "slug": "apparel-manufacturer"
+      },
+      {
+        "id": 53,
+        "name": "bulk clothing supplier",
+        "slug": "bulk-clothing-supplier"
+      },
+      {
+        "id": 83,
+        "name": "casual chic outfits",
+        "slug": "casual-chic-outfits"
+      },
+      {
+        "id": 79,
+        "name": "co-ord sets women",
+        "slug": "co-ord-sets-women"
+      },
+      {
+        "id": 80,
+        "name": "crop tops",
+        "slug": "crop-tops"
+      },
+      {
+        "id": 84,
+        "name": "fashion export garments",
+        "slug": "fashion-export-garments"
+      },
+      {
+        "id": 86,
+        "name": "global fashion trends",
+        "slug": "global-fashion-trends"
+      },
+      {
+        "id": 82,
+        "name": "jumpsuits women",
+        "slug": "jumpsuits-women"
+      },
+      {
+        "id": 87,
+        "name": "ladies western outfits",
+        "slug": "ladies-western-outfits"
+      },
+      {
+        "id": 77,
+        "name": "modern fashion outfits",
+        "slug": "modern-fashion-outfits"
+      },
+      {
+        "id": 75,
+        "name": "new western fashion",
+        "slug": "new-western-fashion"
+      },
+      {
+        "id": 81,
+        "name": "oversized shirts",
+        "slug": "oversized-shirts"
+      },
+      {
+        "id": 71,
+        "name": "ready-made garments",
+        "slug": "ready-made-garments"
+      },
+      {
+        "id": 78,
+        "name": "street style women",
+        "slug": "street-style-women"
+      },
+      {
+        "id": 76,
+        "name": "trendy women clothing",
+        "slug": "trendy-women-clothing"
+      },
+      {
+        "id": 85,
+        "name": "wholesale women clothing",
+        "slug": "wholesale-women-clothing"
+      },
+      {
+        "id": 59,
+        "name": "women western wear",
+        "slug": "women-western-wear"
+      }
+    ],
+    "images": [
+      {
+        "id": 60,
+        "date_created": "2026-04-20T11:18:00",
+        "date_created_gmt": "2026-04-20T11:18:00",
+        "date_modified": "2026-04-20T11:18:00",
+        "date_modified_gmt": "2026-04-20T11:18:00",
+        "src": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2.jpeg",
+        "name": "new western fashion 2",
+        "alt": "",
+        "srcset": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2.jpeg 1024w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-200x300.jpeg 200w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-683x1024.jpeg 683w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-768x1152.jpeg 768w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-600x900.jpeg 600w",
+        "sizes": "(max-width: 1024px) 100vw, 1024px",
+        "thumbnail": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-2-300x300.jpeg"
+      },
+      {
+        "id": 59,
+        "date_created": "2026-04-20T11:17:58",
+        "date_created_gmt": "2026-04-20T11:17:58",
+        "date_modified": "2026-04-20T11:17:58",
+        "date_modified_gmt": "2026-04-20T11:17:58",
+        "src": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3.jpeg",
+        "name": "new western fashion 3",
+        "alt": "",
+        "srcset": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3.jpeg 1024w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-200x300.jpeg 200w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-683x1024.jpeg 683w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-768x1152.jpeg 768w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-600x900.jpeg 600w",
+        "sizes": "(max-width: 1024px) 100vw, 1024px",
+        "thumbnail": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-3-300x300.jpeg"
+      },
+      {
+        "id": 58,
+        "date_created": "2026-04-20T11:17:56",
+        "date_created_gmt": "2026-04-20T11:17:56",
+        "date_modified": "2026-04-20T11:17:56",
+        "date_modified_gmt": "2026-04-20T11:17:56",
+        "src": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion.jpeg",
+        "name": "new western fashion",
+        "alt": "",
+        "srcset": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion.jpeg 1024w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-200x300.jpeg 200w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-683x1024.jpeg 683w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-768x1152.jpeg 768w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-600x900.jpeg 600w",
+        "sizes": "(max-width: 1024px) 100vw, 1024px",
+        "thumbnail": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/new-western-fashion-300x300.jpeg"
+      },
+      {
+        "id": 66,
+        "date_created": "2026-05-14T09:50:36",
+        "date_created_gmt": "2026-05-14T09:50:36",
+        "date_modified": "2026-05-14T09:50:36",
+        "date_modified_gmt": "2026-05-14T09:50:36",
+        "src": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27.jpeg",
+        "name": "WhatsApp Image 2026-05-14 at 15.15.27",
+        "alt": "",
+        "srcset": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27.jpeg 900w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-169x300.jpeg 169w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-576x1024.jpeg 576w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-768x1365.jpeg 768w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-864x1536.jpeg 864w, https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-600x1067.jpeg 600w",
+        "sizes": "(max-width: 900px) 100vw, 900px",
+        "thumbnail": "https://seagreen-boar-119602.hostingersite.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-05-14-at-15.15.27-300x300.jpeg"
+      }
+    ],
+    "attributes": [],
+    "default_attributes": [],
+    "variations": [],
+    "grouped_products": [],
+    "menu_order": 0,
+    "price_html": "",
+    "related_ids": [
+      11,
+      51
+    ],
+    "meta_data": [],
+    "stock_status": "instock",
+    "has_options": false,
+    "post_password": "",
+    "global_unique_id": "",
+    "_links": {
+      "self": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wc/v3/products/57",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://seagreen-boar-119602.hostingersite.com/wp-json/wc/v3/products"
+        }
+      ]
+    }
+  }
+]

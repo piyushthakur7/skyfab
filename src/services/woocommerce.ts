@@ -127,6 +127,23 @@ export async function getProduct(id: number | string) {
   }
 }
 
+export async function getProductMedia(productId: number | string) {
+  const qp = new URLSearchParams();
+  if (!isDev) qp.set('path', 'wp/v2/media');
+  qp.set('parent', String(productId));
+  
+  try {
+    const url = `${buildWpUrl()}${isDev ? '/wp/v2/media' : ''}?${qp.toString()}`;
+    const response = await fetch(url);
+    if (!response.ok) return [];
+    const media = await response.json();
+    return Array.isArray(media) ? media : [];
+  } catch (err) {
+    console.error(`[WC] Error fetching media for product ${productId}:`, err);
+    return [];
+  }
+}
+
 export async function getCategories() {
   const qp = authParams();
   if (!isDev) qp.set('path', 'products/categories');
