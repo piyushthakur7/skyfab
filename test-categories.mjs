@@ -1,8 +1,8 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-const WC_URL = 'https://skyfab.co.in';
-const KEY = 'ck_9e6aac429281cccdc1ef2c2c2f6ef78718a36450';
-const SECRET = 'cs_3c077e931525dfd4173be842503d97917e1b909d';
+const WC_URL = 'https://seagreen-boar-119602.hostingersite.com';
+const KEY = 'ck_5f78a8d77f8c1fbb9707c9a448c7220b7af232f6';
+const SECRET = 'cs_93f9b910b29336bfa3312f2b0fba72a185cdf57c';
 
 async function testCategories() {
   try {
@@ -33,10 +33,8 @@ async function testCategories() {
     if (catIsJson) {
       const data = JSON.parse(catText);
       console.log('\n>>> SUCCESS! Categories fetched:', data.length);
-      const parents = data.filter(c => c.parent === 0);
-      for (const p of parents) {
-        const subs = data.filter(c => c.parent === p.id);
-        console.log(`  ${p.name} (${p.count} products)${subs.length ? ` -> ${subs.map(s=>s.name).join(', ')}` : ''}`);
+      for (const cat of data) {
+        console.log(`ID: ${cat.id} | Slug: ${cat.slug} | Name: ${cat.name} | Parent: ${cat.parent} | Count: ${cat.count}`);
       }
     } else {
       console.log('Response (first 300 chars):', catText.substring(0, 300));
