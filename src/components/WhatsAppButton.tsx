@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 
 export default function WhatsAppButton() {
-  const phoneNumber = '919909896888';
+  const phoneNumber = '919924896888';
   const defaultMessage = 'Hello Skyfab, I would like to inquire about your products and services.';
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(defaultMessage)}`;
 

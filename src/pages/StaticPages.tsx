@@ -21,6 +21,7 @@ export const Contact = () => (
                 { icon: <Mail size={18}/>, label: 'Email', value: 'chamundatrends1@gmail.com', href: 'mailto:chamundatrends1@gmail.com' },
                 { icon: <Phone size={18}/>, label: 'Nikunj Gabani', value: '+91 99098 96888', href: 'tel:+919909896888', whatsapp: 'https://wa.me/919909896888?text=Hello%20Nikunj%2C%20I%20would%20like%20to%20inquire%20about%20Skyfab.' },
                 { icon: <Phone size={18}/>, label: 'Jaydeep Gabani', value: '+91 99793 96888', href: 'tel:+919979396888' },
+                { icon: <Phone size={18}/>, label: 'WhatsApp & Contact', value: '+91 99248 96888', href: 'tel:+919924896888', whatsapp: 'https://wa.me/919924896888?text=Hello%20Skyfab%2C%20I%20would%20like%20to%20inquire%20about%20Skyfab.' },
                 { icon: <MapPin size={18}/>, label: 'Location', value: 'House No 38, Aavishkar Texpa, Saroli Kadodara Road, 394325', href: 'https://maps.google.com/?q=House+No+38,+Aavishkar+Texpa,+Saroli+Kadodara+Road,+394325' }
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-4 group">
