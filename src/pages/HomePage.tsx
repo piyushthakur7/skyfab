@@ -71,7 +71,7 @@ const SplitHero = () => {
                   initial={{ opacity: 0, y: 30 }} 
                   animate={{ 
                     opacity: 1, 
-                    y: isShowing ? -120 : 0,
+                    y: isShowing ? -90 : 0,
                     scale: isShowing ? 0.85 : 1
                   }}
                   transition={{ delay: 0.5 + i * 0.2, duration: 0.8 }}
@@ -88,7 +88,7 @@ const SplitHero = () => {
                 {/* Fetched Products Grid */}
                 <div 
                   className={cn(
-                    "absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-6 transition-all duration-1000",
+                    "absolute top-[52%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-6 transition-all duration-1000",
                     isShowing ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-10 pointer-events-none"
                   )}
                 >
