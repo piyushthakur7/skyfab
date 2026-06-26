@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'motion/react';
 import { 
@@ -7,43 +7,132 @@ import {
 import { useCounter } from '../components/UI';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { getProducts, WCProduct } from '../services/woocommerce';
 
 function cn(...inputs: ClassValue[]) { return twMerge(clsx(inputs)); }
 
 // --- Split Screen Hero ---
 const SplitHero = () => {
+  const [showProducts, setShowProducts] = useState(false);
+  const [panelProducts, setPanelProducts] = useState<Record<string, WCProduct[]>>({});
+
+  useEffect(() => {
+    // Start timer for hero product reveal
+    const timer = setTimeout(() => {
+      setShowProducts(true);
+    }, 2500);
+
+    // Fetch products and distribute them to panels
+    getProducts({ per_page: 50 }).then((data) => {
+      const all = data || [];
+      const indian = all.filter(p => p.categories.some(c => c.slug.toLowerCase().includes('indian') || c.name.toLowerCase().includes('indian')));
+      const fabrics = all.filter(p => p.categories.some(c => c.slug.toLowerCase().includes('fabric') || c.name.toLowerCase().includes('fabric')));
+      const garments = all.filter(p => p.categories.some(c => c.slug.toLowerCase().includes('garment') || c.name.toLowerCase().includes('garment')));
+      
+      setPanelProducts({
+        'indian-wear': indian.length ? indian.slice(0, 4) : all.slice(0, 4),
+        'export-fabrics': fabrics.length ? fabrics.slice(0, 4) : all.slice(4, 8),
+        'export-garments': garments.length ? garments.slice(0, 4) : all.slice(8, 12)
+      });
+    });
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const panels = [
-    { title: 'INDIAN', subtitle: 'Wear', image: '/images/indian-wear.png', link: '/indian-wear' },
-    { title: 'EXPORT', subtitle: 'Fabrics', image: '/images/export-fabric.png', link: '/export-fabrics' },
-    { title: 'EXPORT', subtitle: 'Garments', image: '/images/export-garment.png', link: '/export-garments' },
+    { id: 'indian-wear', title: 'INDIAN', subtitle: 'Wear', image: '/images/indian-wear.png', link: '/indian-wear' },
+    { id: 'export-fabrics', title: 'EXPORT', subtitle: 'Fabrics', image: '/images/export-fabric.png', link: '/export-fabrics' },
+    { id: 'export-garments', title: 'EXPORT', subtitle: 'Garments', image: '/images/export-garment.png', link: '/export-garments' },
   ];
 
   return (
-    <section className="split-hero">
-      {panels.map((panel, i) => (
-        <React.Fragment key={i}>
-          {i > 0 && <div className="split-hero-divider" style={{ left: `${(i / 3) * 100}%` }} />}
-          <Link to={panel.link} className="split-hero-panel group block">
-            <img src={panel.image} alt={`${panel.title} ${panel.subtitle}`} />
-            <div className="split-hero-overlay">
-              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 + i * 0.2, duration: 0.8 }}>
-                <h2 className="text-paper text-4xl md:text-6xl lg:text-7xl font-serif font-bold tracking-tight leading-none mb-2">
-                  {panel.title}
-                </h2>
-                <h3 className="text-paper/80 text-3xl md:text-5xl lg:text-6xl font-serif italic font-light">
-                  {panel.subtitle}
-                </h3>
-              </motion.div>
-              <div className="split-hero-cta mt-8">
-                <span className="inline-flex items-center gap-2 text-paper/70 text-[11px] font-sans uppercase tracking-[0.3em] font-semibold border border-paper/30 px-6 py-3 rounded-full hover:bg-paper/10 transition-all">
-                  Explore <ArrowRight size={14} />
-                </span>
+    <section className="split-hero relative">
+      {panels.map((panel, i) => {
+        const products = panelProducts[panel.id] || [];
+        const hasProducts = products.length > 0;
+        const isShowing = showProducts && hasProducts;
+
+        return (
+          <React.Fragment key={panel.id}>
+            {i > 0 && <div className="split-hero-divider" style={{ left: `${(i / 3) * 100}%` }} />}
+            <Link to={panel.link} className="split-hero-panel group block relative">
+              <img src={panel.image} alt={`${panel.title} ${panel.subtitle}`} />
+              
+              {/* Darkening overlay when products show */}
+              <div 
+                className={cn(
+                  "absolute inset-0 bg-ink transition-opacity duration-1000 z-[5] pointer-events-none", 
+                  isShowing ? "opacity-70" : "opacity-0"
+                )} 
+              />
+
+              <div className="split-hero-overlay relative z-10 w-full h-full flex flex-col justify-center">
+                <motion.div 
+                  initial={{ opacity: 0, y: 30 }} 
+                  animate={{ 
+                    opacity: 1, 
+                    y: isShowing ? -120 : 0,
+                    scale: isShowing ? 0.85 : 1
+                  }}
+                  transition={{ delay: 0.5 + i * 0.2, duration: 0.8 }}
+                  className="text-center"
+                >
+                  <h2 className="text-paper text-4xl md:text-6xl lg:text-7xl font-serif font-bold tracking-tight leading-none mb-2">
+                    {panel.title}
+                  </h2>
+                  <h3 className="text-paper/80 text-3xl md:text-5xl lg:text-6xl font-serif italic font-light">
+                    {panel.subtitle}
+                  </h3>
+                </motion.div>
+
+                {/* Fetched Products Grid */}
+                <div 
+                  className={cn(
+                    "absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-6 transition-all duration-1000",
+                    isShowing ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-10 pointer-events-none"
+                  )}
+                >
+                  <div className="grid grid-cols-2 gap-3 max-w-[280px] mx-auto">
+                    {products.map((prod, idx) => (
+                      <motion.div 
+                        key={prod.id}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: isShowing ? 1 : 0, scale: isShowing ? 1 : 0.9 }}
+                        transition={{ delay: isShowing ? 0.2 + (idx * 0.1) : 0, duration: 0.5 }}
+                        className="bg-white/10 backdrop-blur-md rounded-xl overflow-hidden border border-white/20 aspect-[4/5] group/item relative shadow-xl"
+                      >
+                        {prod.images?.[0]?.src && (
+                          <img 
+                            src={prod.images[0].src} 
+                            alt={prod.name} 
+                            style={{ filter: 'none' }}
+                            className="!w-full !h-full !object-cover opacity-80 group-hover/item:opacity-100 transition-opacity duration-300 group-hover/item:scale-110" 
+                          />
+                        )}
+                        <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-ink/90 via-ink/50 to-transparent">
+                          <p className="text-white text-[10px] font-semibold truncate font-sans mb-0.5">{prod.name}</p>
+                          <p className="text-brand-light text-[10px] font-bold">₹{prod.price || '...'}</p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                <div 
+                  className={cn(
+                    "split-hero-cta transition-all duration-700",
+                    isShowing ? "mt-[280px] opacity-100" : "mt-8"
+                  )}
+                >
+                  <span className="inline-flex items-center gap-2 text-paper/70 text-[11px] font-sans uppercase tracking-[0.3em] font-semibold border border-paper/30 px-6 py-3 rounded-full hover:bg-paper/10 transition-all">
+                    Explore <ArrowRight size={14} />
+                  </span>
+                </div>
               </div>
-            </div>
-          </Link>
-        </React.Fragment>
-      ))}
+            </Link>
+          </React.Fragment>
+        );
+      })}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none hidden lg:block">
         <div className="bg-ink/60 backdrop-blur-lg rounded-full w-32 h-32 flex flex-col items-center justify-center border border-paper/10">
           <span className="text-paper text-lg font-serif font-bold">SKYFAB</span>
