@@ -77,7 +77,54 @@ export const Contact = () => (
   </section>
 );
 
+export const ChinaWholesale = () => (
+  <section className="py-24 md:py-32 bg-paper relative">
+    <div className="max-w-7xl mx-auto px-6">
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+        <div className="flex items-center gap-3 justify-center mb-4">
+          <div className="teal-line" /><span className="text-brand text-[10px] uppercase tracking-[0.3em] font-sans font-bold">Specialized Sourcing</span><div className="teal-line" style={{ transform: 'scaleX(-1)' }} />
+        </div>
+        <h2 className="text-4xl md:text-6xl font-serif mb-6">China Wholesale <span className="italic font-light">Fabric Supplier</span></h2>
+        <p className="text-ink/60 text-lg max-w-3xl mx-auto font-sans">
+          Your trusted partner for high-quality, customizable, and sustainable wholesale fabrics sourced directly from the best mills in China. Designed specifically for fashion designers and global brands.
+        </p>
+      </motion.div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-24">
+        <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+          <img src="/images/export-fabric.png" alt="China Wholesale Fabric" className="rounded-3xl shadow-2xl w-full object-cover aspect-[4/3]" />
+        </motion.div>
+        <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-8">
+          <div>
+            <h3 className="text-2xl font-serif mb-3">Why Source With Us?</h3>
+            <p className="text-ink/60 font-sans leading-relaxed">
+              We bridge the gap between global fashion designers and premium Chinese fabric manufacturers. 
+              Our strong presence and network in China allow us to offer an extensive range of fabrics at highly competitive wholesale prices, with rigorous quality control at every step.
+            </p>
+          </div>
+          <ul className="space-y-4 font-sans text-ink/70">
+            <li className="flex items-center gap-3"><div className="w-2 h-2 rounded-full bg-brand"></div> Lowest MOQ in the industry</li>
+            <li className="flex items-center gap-3"><div className="w-2 h-2 rounded-full bg-brand"></div> Custom fabric development & printing</li>
+            <li className="flex items-center gap-3"><div className="w-2 h-2 rounded-full bg-brand"></div> Sustainable and eco-friendly options</li>
+            <li className="flex items-center gap-3"><div className="w-2 h-2 rounded-full bg-brand"></div> End-to-end logistics and door-to-door delivery</li>
+          </ul>
+        </motion.div>
+      </div>
+
+      <div className="bg-ink text-paper rounded-3xl p-12 text-center relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-brand/20 rounded-full blur-[100px]" />
+        <h3 className="text-3xl font-serif mb-4 relative z-10">Ready to start your sourcing journey?</h3>
+        <p className="text-paper/70 font-sans mb-8 max-w-xl mx-auto relative z-10">Get in touch with our sourcing experts today to discuss your fabric requirements and get a customized quote.</p>
+        <a href="/contact" className="inline-flex items-center gap-2 bg-brand text-paper px-8 py-4 rounded-full text-[11px] uppercase tracking-[0.2em] font-sans font-bold hover:bg-brand-light transition-all relative z-10">
+          Contact Sourcing Team <ArrowRight size={14} />
+        </a>
+      </div>
+    </div>
+  </section>
+);
+
 export const AboutPage = () => (<div className="pt-20"><VisionMission/><FacilitiesSection/><CertificationsSection/><Testimonials/></div>);
 export const FacilitiesPage = () => (<div className="pt-20"><FacilitiesSection/><CertificationsSection/></div>);
 export const CertificationsPage = () => (<div className="pt-20"><CertificationsSection/></div>);
 export const ContactPage = () => (<div className="pt-20"><Contact/></div>);
+export const ChinaWholesalePage = () => (<div className="pt-20"><ChinaWholesale/></div>);

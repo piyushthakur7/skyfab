@@ -11,7 +11,7 @@ import WhatsAppButton from './components/WhatsAppButton';
 // Pages
 import HomePage from './pages/HomePage';
 import { IndianWearPage, ExportFabricsPage, ExportGarmentsPage } from './pages/CategoryPage';
-import { AboutPage, FacilitiesPage, CertificationsPage, ContactPage } from './pages/StaticPages';
+import { AboutPage, FacilitiesPage, CertificationsPage, ContactPage, ChinaWholesalePage } from './pages/StaticPages';
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
 import ProfilePage from './pages/Profile/ProfilePage';
@@ -41,6 +41,7 @@ export default function App() {
             <Route path="/facilities" element={<FacilitiesPage />} />
             <Route path="/certifications" element={<CertificationsPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/china-wholesale" element={<ChinaWholesalePage />} />
             
             {/* Auth & Profile */}
             <Route path="/login" element={<LoginPage />} />

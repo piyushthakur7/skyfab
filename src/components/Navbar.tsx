@@ -26,6 +26,7 @@ const Navbar = () => {
     { name: 'Indian Wear', href: '/indian-wear' },
     { name: 'Export Fabrics', href: '/export-fabrics' },
     { name: 'Export Garments', href: '/export-garments' },
+    { name: 'China Wholesale', href: '/china-wholesale' },
     { name: 'About Us', href: '/about' },
     { name: 'Facilities', href: '/facilities' },
     { name: 'Certifications', href: '/certifications' },

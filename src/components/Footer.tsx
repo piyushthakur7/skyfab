@@ -22,8 +22,8 @@ const Footer = () => (
         <div>
           <h4 className="text-[10px] uppercase tracking-[0.3em] font-sans font-bold text-brand mb-6">Products</h4>
           <ul className="space-y-3">
-            {['Indian Wear', 'Export Fabrics', 'Export Garments'].map(l => (
-              <li key={l}><Link to={`/${l.toLowerCase().replace(/\s+/g, '-')}`} className="text-sm text-paper/50 hover:text-paper font-sans transition-colors">{l}</Link></li>
+            {[['Indian Wear', '/indian-wear'], ['Export Fabrics', '/export-fabrics'], ['Export Garments', '/export-garments'], ['China Wholesale', '/china-wholesale']].map(([l, h]) => (
+              <li key={l}><Link to={h} className="text-sm text-paper/50 hover:text-paper font-sans transition-colors">{l}</Link></li>
             ))}
           </ul>
         </div>

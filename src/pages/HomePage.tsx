@@ -406,6 +406,31 @@ export const Testimonials = () => {
   );
 };
 
+// --- Instagram Reel ---
+export const InstagramReel = () => (
+  <section className="py-24 md:py-32 bg-beige/30 relative overflow-hidden">
+    <div className="max-w-7xl mx-auto px-6 text-center">
+      <div className="flex items-center gap-3 justify-center mb-4">
+        <div className="teal-line" /><span className="text-brand text-[10px] uppercase tracking-[0.3em] font-sans font-bold">Follow Us</span><div className="teal-line" style={{ transform: 'scaleX(-1)' }} />
+      </div>
+      <h2 className="text-3xl md:text-5xl font-serif mb-12">Our <span className="italic font-light">Latest Reel</span></h2>
+      <div className="flex justify-center">
+        <div className="w-full max-w-[400px] bg-white p-4 rounded-3xl shadow-xl">
+          <iframe 
+            src="https://www.instagram.com/reel/DaC83pCMYVd/embed" 
+            className="w-full aspect-[9/16] rounded-2xl" 
+            frameBorder="0" 
+            scrolling="no" 
+            allowTransparency={true} 
+            allow="encrypted-media"
+            title="Instagram Reel"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
 const HomePage = () => (
   <>
     <SplitHero/>
@@ -415,6 +440,7 @@ const HomePage = () => (
     <VisionMission/>
     <Certifications/>
     <Facilities/>
+    <InstagramReel/>
     <Testimonials/>
   </>
 );
